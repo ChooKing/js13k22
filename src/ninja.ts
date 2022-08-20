@@ -19,6 +19,7 @@ export class Ninja extends Entity{
     core: Paths;
     thighL: Paths;
     armL:Paths;
+    sword: Paths;
     swHand: Paths;
     armR: Paths;
     thighR: Paths;
@@ -44,8 +45,10 @@ export class Ninja extends Entity{
             ["M87.837,101.992c-0.677,-1.617 -3.309,-2.342 -5.872,-1.618c-2.563,0.724 -4.093,2.625 -3.415,4.242c0.88,-0.791 2.423,-1.668 4.275,-2.191c1.853,-0.523 3.725,-0.612 5.012,-0.433Z",c[0]],
             ["M58.699,145.319c-10.597,4.158 -19.162,22.996 -11.921,41.636c18.508,47.644 -16.055,108.138 38.047,92.278c15.984,-4.685 9.152,-60.778 3.817,-100.294c-1.68,-12.443 -6.933,-22.811 -13.315,-28.83l3.46,-16.827l-16.845,-3.731l-3.243,15.768Z",c[0]]
         ]);
+        this.sword=new Paths([
+            ["M37.239,0.5l9.074,7.48c0,-0 17.89,50.615 24.014,77.075c6.147,26.561 12.871,82.286 12.871,82.286l-6.898,1.72c0,-0 -6.396,-55.004 -12.624,-81.882c-6.511,-28.094 -26.437,-86.679 -26.437,-86.679Z",c[3]]
+        ])
         this.swHand=new Paths([
-            ["M37.239,0.5l9.074,7.48c0,-0 17.89,50.615 24.014,77.075c6.147,26.561 12.871,82.286 12.871,82.286l-6.898,1.72c0,-0 -6.396,-55.004 -12.624,-81.882c-6.511,-28.094 -26.437,-86.679 -26.437,-86.679Z",c[3]],
             ["M74.097,167.556l10.758,-1.009l0.535,5.006l-10.758,1.009l-0.535,-5.006Z",c[4]],
             ["M73.279,172.825l13.76,-1.29l0.33,3.085l-13.76,1.29l-0.33,-3.085Z",c[5]],
             ["M75.591,175.942l9.314,-0.874l3.536,33.071l-9.314,0.873l-3.536,-33.07Z",c[0]],
@@ -76,6 +79,7 @@ export class Ninja extends Entity{
         this.paths=Array();
         this.paths.push(this.armL);
         this.paths.push(this.core);
+        this.paths.push(this.sword);
         this.paths.push(this.swHand);
         this.paths.push(this.thighL);
         this.paths.push(this.shinL);
@@ -85,12 +89,10 @@ export class Ninja extends Entity{
         this.paths.push(this.shinR);
         this.paths.push(this.footR);
     }
-    draw() {
+    draw(ctx: CanvasRenderingContext2D) {
         if(this.f){
-            // @ts-ignore
-            Game.ctx.save();  // save the current canvas state
-            // @ts-ignore
-            Game.ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),0);
+            ctx.save();
+            ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),0);
 
         }
         /*
@@ -108,8 +110,8 @@ export class Ninja extends Entity{
         this.paths.forEach((p)=>{
             p.draw();
         });
-        if(this.f) { // @ts-ignore
-            Game.ctx.restore();
+        if(this.f) {
+            ctx.restore();
         }
     }
     update(t: number){
@@ -125,7 +127,10 @@ export class Ninja extends Entity{
         let c=false
         this.paths.forEach((p)=>{
             p.paths.forEach((i)=>{
-                if(ctx.isPointInPath(i[0],x,y)) c=true;
+                if(i!==this.sword.paths[0]){
+                    if(ctx.isPointInPath(i[0],x,y)) c=true;
+                }
+
             });
         });
         return c;

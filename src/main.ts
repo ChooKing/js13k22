@@ -25,7 +25,7 @@ const run=(time: number)=>{
     });
 
      */
-    ninja.draw();
+    ninja.draw(ctx);
 
 
     if(ninja.collide(ctx,mouseX,mouseY)){
