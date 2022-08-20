@@ -26,6 +26,7 @@ export class Ninja extends Entity{
     shinL: Paths;
     footR: Paths;
     footL: Paths;
+    paths: Paths[];
     constructor(x: number, y: number) {
         super(x, y);
         this.xy={x:x, y:y};
@@ -72,6 +73,17 @@ export class Ninja extends Entity{
         this.footR=new Paths([
             ["M0.003,412.678c-0.027,4.561 -0.141,13.529 12.097,11.806c18.711,-2.636 21.665,13.43 36.591,-3.409c5.46,-6.161 -20.954,-3.078 -31.672,-18.738c-2.661,-3.887 -8.168,-4.363 -11.086,-2.646l-5.93,12.987Z",c[0]]
         ]);
+        this.paths=Array();
+        this.paths.push(this.armL);
+        this.paths.push(this.core);
+        this.paths.push(this.swHand);
+        this.paths.push(this.thighL);
+        this.paths.push(this.shinL);
+        this.paths.push(this.footL);
+        this.paths.push(this.armR);
+        this.paths.push(this.thighR);
+        this.paths.push(this.shinR);
+        this.paths.push(this.footR);
     }
     draw() {
         if(this.f){
@@ -81,7 +93,7 @@ export class Ninja extends Entity{
             Game.ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),0);
 
         }
-
+        /*
         this.armL.draw();
         this.core.draw();
         this.swHand.draw();
@@ -92,6 +104,10 @@ export class Ninja extends Entity{
         this.thighR.draw();
         this.shinR.draw();
         this.footR.draw();
+         */
+        this.paths.forEach((p)=>{
+            p.draw();
+        });
         if(this.f) { // @ts-ignore
             Game.ctx.restore();
         }
@@ -104,5 +120,14 @@ export class Ninja extends Entity{
 
         this.lt = t;
         this.draw();
+    }
+    collide(ctx: CanvasRenderingContext2D,x:number, y:number){
+        let c=false
+        this.paths.forEach((p)=>{
+            p.paths.forEach((i)=>{
+                if(ctx.isPointInPath(i[0],x,y)) c=true;
+            });
+        });
+        return c;
     }
 }
