@@ -103,6 +103,13 @@ export class Ninja extends Entity{
         this.paths.push(this.footR);
         this.armR.a=0;
     }
+    checkCol(p:Paths){
+        this.cols.forEach((co)=>{
+            p.paths.forEach((i)=>{
+                if((this.onCollide)&&(this.collide(Game.ctx!,i[0],co.x,co.y))) this.onCollide();
+            })
+        })
+    }
     draw() {
         const ctx=Game.ctx!;
 
@@ -121,8 +128,10 @@ export class Ninja extends Entity{
         ctx.rotate(this.ca);
         ctx.translate(-66,-186);
         this.armL.draw();
+        this.checkCol(this.armL);
         ctx.restore();
         this.core.draw();
+        this.checkCol(this.core);
         ctx.save();
         ctx.translate(66,186);
         ctx.rotate(this.ca);
@@ -130,16 +139,24 @@ export class Ninja extends Entity{
 
         this.sword.draw();
         this.swHand.draw();
+        this.checkCol(this.swHand);
         this.armR.draw();
+        this.checkCol(this.armR);
         ctx.restore();
         ctx.restore();
         this.thighL.draw();
+        this.checkCol(this.thighL);
         this.shinL.draw();
+        this.checkCol(this.shinL);
         this.footL.draw();
+        this.checkCol(this.footL);
 
         this.thighR.draw();
+        this.checkCol(this.thighR);
         this.shinR.draw();
+        this.checkCol(this.shinR);
         this.footR.draw();
+        this.checkCol(this.footR);
         /*
         this.paths.forEach((p)=>{
             ctx.save();
