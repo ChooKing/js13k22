@@ -1,6 +1,7 @@
 import {Entity} from "./entity";
 import {Game} from "./game";
 import {Paths} from "./Paths";
+import {Point} from "./types";
 const c=[
     {r:1,g:1,b:0},
     {r:202,g:190,b:160},
@@ -28,9 +29,12 @@ export class Ninja extends Entity{
     footR: Paths;
     footL: Paths;
     paths: Paths[];
-    constructor(x: number, y: number) {
+    cols: Point[];
+    onCollide?: ()=>void;
+    constructor(x: number, y: number, col: Point[]) {
         super(x, y);
         this.xy={x:x, y:y};
+        this.cols=col;
         this.f = false;
         this.lt = 0;
         this.thighL=new Paths([["M127.011,337.874c16.584,-3.609 -13.97,-49.943 -25.727,-67.854c-6.784,-10.334 -18.324,-15.071 -25.754,-10.572c-7.431,4.499 -7.956,16.541 -1.172,26.875c11.757,17.911 34.561,55.489 52.653,51.551Z", c[2]]]);
@@ -95,24 +99,23 @@ export class Ninja extends Entity{
             ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),0);
 
         }
-        /*
-        this.armL.draw();
-        this.core.draw();
-        this.swHand.draw();
-        this.thighL.draw();
-        this.shinL.draw();
-        this.footL.draw();
-        this.armR.draw();
-        this.thighR.draw();
-        this.shinR.draw();
-        this.footR.draw();
-         */
+
         this.paths.forEach((p)=>{
             p.draw();
+            p.paths.forEach((i)=>{
+                if(i[0]!==this.sword.paths[0][0]){
+                    this.cols.forEach((c)=>{
+                        if((this.onCollide)&&(this.collide(ctx,i[0],c.x,c.y))) this.onCollide();
+                    });
+                };
+            });
         });
         if(this.f) {
             ctx.restore();
         }
+    }
+    setCollider(c:()=>void){
+        this.onCollide=c;
     }
     update(t: number){
         const dt = (t-this.lt)/1000;
@@ -121,8 +124,8 @@ export class Ninja extends Entity{
         }
 
         this.lt = t;
-        this.draw();
     }
+    /*
     collide(ctx: CanvasRenderingContext2D,x:number, y:number){
         let c=false
         this.paths.forEach((p)=>{
@@ -130,9 +133,10 @@ export class Ninja extends Entity{
                 if(i!==this.sword.paths[0]){
                     if(ctx.isPointInPath(i[0],x,y)) c=true;
                 }
-
             });
         });
         return c;
     }
+
+     */
 }

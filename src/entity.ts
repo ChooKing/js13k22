@@ -7,4 +7,8 @@ export abstract class Entity{
     }
     abstract draw(ctx: CanvasRenderingContext2D):void;
     abstract update(t: number):void;
+    collide(ctx: CanvasRenderingContext2D, p: Path2D, x: number, y: number){
+        return ctx.isPointInPath(p,x,y);
+
+    }
 }
