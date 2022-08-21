@@ -15,6 +15,9 @@ const c=[
 ];
 const mca=1.1; //maximum cutting angle
 const cs=0.2; //cutting speed
+const ctt=(x:number, y:number)=>{
+    Game.ctx!.translate(x,y);
+}
 export class Ninja extends Entity{
     static w = 189;
     static h = 449;
@@ -33,7 +36,7 @@ export class Ninja extends Entity{
     shinL: Paths;
     footR: Paths;
     footL: Paths;
-    paths: Paths[];
+    //paths: Paths[];
     cols: Point[];
     ca: number; //cutting angle
     onCollide?: ()=>void;
@@ -46,17 +49,17 @@ export class Ninja extends Entity{
         this.s=0;
         this.ca=0;
         this.ct=false;
-        this.thighL=new Paths([["M129.406,360.736C145.99,357.127 115.435,310.793 103.678,292.882C96.895,282.548 85.355,277.81 77.924,282.309C70.494,286.808 69.968,298.851 76.752,309.185C88.509,327.096 111.313,364.674 129.406,360.736Z", c[2]]]);
+        this.thighL=new Paths([["M129,360C145,357 115,310 103,292C96,282 85,277 77,282C70,286 69,298 76,309C88,327 111,364 129,360Z", c[2]]]);
         this.armL=new Paths([
-            ["M116.175,188.585C121.065,179.362 86.648,175.326 73.365,173.741C65.701,172.826 58.822,176.368 58.013,181.644C57.203,186.921 62.768,191.947 70.432,192.862C83.715,194.447 110.839,198.648 116.175,188.585Z",c[2]],
-            ["M156.288,182.973C163.185,189.811 148.655,189.334 123.116,195.892C114.972,197.983 108.86,195.817 107.909,190.963C106.957,186.108 111.978,183.264 118.353,182.211C129.402,180.386 148.114,174.868 156.288,182.973Z",c[2]]
+            ["M116,188C121,179 86,175 73,173C65,172 58,176 58,181C57,186 62,191 70,192C83,194 110,198 116,188Z",c[2]],
+            ["M156,182C163,189 148,189 123,195C114,197 108,195 107.,190C106,186 111,183 118,182C129,180 148,174 156,182Z",c[2]]
         ]);
         this.core=new Paths([
-            ["M63.239,159.134C63.239,159.134 84.583,168.861 94.065,161.202C107.605,150.263 101.159,133.67 90.537,116.539C79.756,99.149 57.131,111.275 57.131,111.275C38.347,118.716 41.441,153.104 63.239,159.134Z",c[0]],
-            ["M92.316,120.107C89.123,118.407 79.027,121.222 76.899,123.812C75.012,126.111 77.265,135.154 80.097,136.685C83.388,138.464 96.726,138.631 98.854,136.04C100.741,133.741 95.15,121.616 92.316,120.107Z",c[1]],
-            ["M86.255,127.026C87.423,126.83 88.714,128.044 89.135,129.735C89.556,131.426 88.949,132.959 87.78,133.155C86.612,133.351 85.321,132.137 84.9,130.445C84.479,128.754 85.086,127.222 86.255,127.026Z",c[0]],
-            ["M90.232,124.854C89.554,123.237 86.923,122.512 84.36,123.236C81.796,123.96 80.266,125.861 80.944,127.478C81.824,126.687 83.367,125.81 85.219,125.287C87.072,124.763 88.945,124.675 90.232,124.854Z",c[0]],
-            ["M61.093,168.181C50.497,172.339 41.931,191.176 49.172,209.817C67.681,257.461 33.117,317.955 87.22,302.095C103.203,297.41 96.371,241.317 91.036,201.801C89.356,189.357 84.104,178.99 77.721,172.971L81.181,156.144L64.336,152.413L61.093,168.181Z",c[0]],
+            ["M63,159C63,159 84,168 94,161C107,150 101,133 90,116C79,99 57,111 57,111C38,118 41,153 63,159Z",c[0]],
+            ["M92,120C89,118 79,121 76,123C75,126 77,135 80,136C83,138 96,138 98,136C100,133 95,121 92,120Z",c[1]],
+            ["M86,127C87,126 88,128 89,129C89,131 88,132 87,133C86,133 85,132 85,130C84,128 85,127 86,127Z",c[0]],
+            ["M90,124C89,123 86,122 84,123C81,123 80,125 80,127C81,126 83,125 85,125C87,124 88,124 90,124Z",c[0]],
+            ["M61,168C50,172 41,191 49,209C67,257 33,317 87,302C103,297 96,241 91,201C89,189 84,178 77,172L81,156L64,152L61,168Z",c[0]],
 
         ]);
         this.sword=new Paths([
@@ -89,7 +92,8 @@ export class Ninja extends Entity{
             ["M2.398,435.539C2.37,440.101 2.256,449.069 14.494,447.345C33.205,444.71 36.159,460.775 51.085,443.937C56.546,437.776 30.131,440.858 19.413,425.199C16.752,421.312 11.245,420.836 8.327,422.553L2.398,435.539Z",c[0]]
         ]);
 
-        this.paths=Array();
+        //this.paths=Array();
+        /*
         this.paths.push(this.armL);
         this.paths.push(this.core);
         this.paths.push(this.sword);
@@ -102,6 +106,8 @@ export class Ninja extends Entity{
         this.paths.push(this.shinR);
         this.paths.push(this.footR);
         this.armR.a=0;
+
+         */
     }
     checkCol(p:Paths){
         this.cols.forEach((co)=>{
@@ -110,73 +116,43 @@ export class Ninja extends Entity{
             })
         })
     }
+    dp(p:Paths){//draw part
+        p.draw();
+        this.checkCol(p);
+    }
     draw() {
         const ctx=Game.ctx!;
-
         ctx.save();
-
         if(this.f){
             ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),this.xy.y);
         }
         else ctx.translate(this.xy.x, this.xy.y);
         ctx.save();
-        ctx.translate(91,277);
+        ctt(91,277);
         ctx.rotate(this.ca/2);
-        ctx.translate(-91,-277);
+        ctt(-91,-277);
         ctx.save();
-        ctx.translate(66,186);
+        ctt(66,186);
         ctx.rotate(this.ca);
-        ctx.translate(-66,-186);
-        this.armL.draw();
-        this.checkCol(this.armL);
+        ctt(-66,-186);
+        this.dp(this.armL);
         ctx.restore();
-        this.core.draw();
-        this.checkCol(this.core);
+        this.dp(this.core);
         ctx.save();
-        ctx.translate(66,186);
+        ctt(66,186);
         ctx.rotate(this.ca);
-        ctx.translate(-66,-186);
-
+        ctt(-66,-186);
         this.sword.draw();
-        this.swHand.draw();
-        this.checkCol(this.swHand);
-        this.armR.draw();
-        this.checkCol(this.armR);
+        this.dp(this.swHand);
+        this.dp(this.armR);
         ctx.restore();
         ctx.restore();
-        this.thighL.draw();
-        this.checkCol(this.thighL);
-        this.shinL.draw();
-        this.checkCol(this.shinL);
-        this.footL.draw();
-        this.checkCol(this.footL);
-
-        this.thighR.draw();
-        this.checkCol(this.thighR);
-        this.shinR.draw();
-        this.checkCol(this.shinR);
-        this.footR.draw();
-        this.checkCol(this.footR);
-        /*
-        this.paths.forEach((p)=>{
-            ctx.save();
-
-            //TRANSLATE TO SHOULDER POINT, ROTATE, THEN TRANSLATE BACK TO ORIGIN BEFORE LOCAL TRANSLATE
-            if(p.a!==0) ctx.rotate(p.a);
-            ctx.translate(this.xy.x,this.xy.y);
-
-            p.draw();
-            p.paths.forEach((i)=>{
-                if(i[0]!==this.sword.paths[0][0]){
-                    this.cols.forEach((c)=>{
-                        if((this.onCollide)&&(this.collide(ctx,i[0],c.x,c.y))) this.onCollide();
-                    });
-                };
-            });
-            ctx.restore();
-        });
-
-         */
+        this.dp(this.thighL);
+        this.dp(this.shinL);
+        this.dp(this.footL);
+        this.dp(this.thighR);
+        this.dp(this.shinR);
+        this.dp(this.footR);
 
         ctx.restore();
 
