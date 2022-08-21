@@ -101,6 +101,8 @@ export class Ninja extends Entity{
         }
 
         this.paths.forEach((p)=>{
+            ctx.save();
+            ctx.translate(this.xy.x,this.xy.y);
             p.draw();
             p.paths.forEach((i)=>{
                 if(i[0]!==this.sword.paths[0][0]){
@@ -109,6 +111,7 @@ export class Ninja extends Entity{
                     });
                 };
             });
+            ctx.restore();
         });
         if(this.f) {
             ctx.restore();
