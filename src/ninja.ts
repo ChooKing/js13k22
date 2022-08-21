@@ -14,10 +14,10 @@ const c=[
     {r:192,g:181,b:154}
 ];
 const mca=1.1; //maximum cutting angle
-const cs=0.1; //cutting speed
+const cs=0.2; //cutting speed
 export class Ninja extends Entity{
     static w = 189;
-    static h = 429;
+    static h = 449;
     s: number; //speed
     f: boolean;
     lt: number;//last update time
@@ -105,12 +105,13 @@ export class Ninja extends Entity{
     }
     draw() {
         const ctx=Game.ctx!;
+
+        ctx.save();
+
         if(this.f){
-            ctx.save();
-            ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),0);
-
+            ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),this.xy.y);
         }
-
+        else ctx.translate(this.xy.x, this.xy.y);
         ctx.save();
         ctx.translate(91,277);
         ctx.rotate(this.ca/2);
@@ -159,9 +160,9 @@ export class Ninja extends Entity{
         });
 
          */
-        if(this.f) {
-            ctx.restore();
-        }
+
+        ctx.restore();
+
     }
     setCollider(c:()=>void){
         this.onCollide=c;
@@ -172,6 +173,7 @@ export class Ninja extends Entity{
         }
         else if(!this.ct && this.ca>0){
             this.ca-=cs;
+            if(this.ca<0) this.ca=0;
         }
         const dt = (t-this.lt)/1000;
         if(dt<1){
