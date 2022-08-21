@@ -13,12 +13,15 @@ const c=[
     {r:86,g:84,b:79},
     {r:192,g:181,b:154}
 ];
+const mca=1.1; //maximum cutting angle
+const cs=0.1; //cutting speed
 export class Ninja extends Entity{
     static w = 189;
     static h = 429;
     s: number; //speed
     f: boolean;
     lt: number;//last update time
+    ct: boolean; //isCutting?
     core: Paths;
     thighL: Paths;
     armL:Paths;
@@ -32,6 +35,7 @@ export class Ninja extends Entity{
     footL: Paths;
     paths: Paths[];
     cols: Point[];
+    ca: number; //cutting angle
     onCollide?: ()=>void;
     constructor(x: number, y: number, col: Point[]) {
         super(x, y);
@@ -40,6 +44,8 @@ export class Ninja extends Entity{
         this.f = false;
         this.lt = 0;
         this.s=0;
+        this.ca=0;
+        this.ct=false;
         this.thighL=new Paths([["M129.406,360.736C145.99,357.127 115.435,310.793 103.678,292.882C96.895,282.548 85.355,277.81 77.924,282.309C70.494,286.808 69.968,298.851 76.752,309.185C88.509,327.096 111.313,364.674 129.406,360.736Z", c[2]]]);
         this.armL=new Paths([
             ["M116.175,188.585C121.065,179.362 86.648,175.326 73.365,173.741C65.701,172.826 58.822,176.368 58.013,181.644C57.203,186.921 62.768,191.947 70.432,192.862C83.715,194.447 110.839,198.648 116.175,188.585Z",c[2]],
@@ -107,18 +113,18 @@ export class Ninja extends Entity{
 
         ctx.save();
         ctx.translate(91,277);
-        ctx.rotate(0.4);
+        ctx.rotate(this.ca/2);
         ctx.translate(-91,-277);
         ctx.save();
         ctx.translate(66,186);
-        ctx.rotate(1.1);
+        ctx.rotate(this.ca);
         ctx.translate(-66,-186);
         this.armL.draw();
         ctx.restore();
         this.core.draw();
         ctx.save();
         ctx.translate(66,186);
-        ctx.rotate(1.1);
+        ctx.rotate(this.ca);
         ctx.translate(-66,-186);
 
         this.sword.draw();
@@ -161,6 +167,12 @@ export class Ninja extends Entity{
         this.onCollide=c;
     }
     update(t: number){
+        if(this.ct && this.ca<mca){
+            this.ca+=cs;
+        }
+        else if(!this.ct && this.ca>0){
+            this.ca-=cs;
+        }
         const dt = (t-this.lt)/1000;
         if(dt<1){
             if((this.s>0 && this.xy.x+Ninja.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;

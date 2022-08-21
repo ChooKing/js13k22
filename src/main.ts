@@ -1,6 +1,7 @@
 import {Ninja} from "./ninja";
 import {Game} from "./game";
 import {Point} from "./types";
+import {Keyboard} from "./keyboard";
 const canvas = document.getElementById("canvas")! as HTMLCanvasElement;
 canvas.width=1600;
 canvas.height=900;
@@ -20,7 +21,14 @@ document.addEventListener('click',(e)=>{
 ninja.setCollider(()=>{
    mColor="rgb(255,0,0)";
 });
+const k=Keyboard.init();
+k.addDownHandler(" ",()=>{
+    ninja.ct=true;
+});
+k.addUpHandler(" ",()=>{
+    ninja.ct=false;
 
+})
 
 const run=(time: number)=>{
     ctx.clearRect(0, 0, Game.w, Game.h);
