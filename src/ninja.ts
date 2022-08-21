@@ -13,8 +13,9 @@ const c=[
     {r:192,g:181,b:154}
 ];
 export class Ninja extends Entity{
-    static w = 152;
-    static h = 84;
+    static w = 189;
+    static h = 429;
+    s: number; //speed
     f: boolean;
     lt: number;//last update time
     core: Paths;
@@ -37,6 +38,7 @@ export class Ninja extends Entity{
         this.cols=col;
         this.f = false;
         this.lt = 0;
+        this.s=150;
         this.thighL=new Paths([["M127.011,337.874c16.584,-3.609 -13.97,-49.943 -25.727,-67.854c-6.784,-10.334 -18.324,-15.071 -25.754,-10.572c-7.431,4.499 -7.956,16.541 -1.172,26.875c11.757,17.911 34.561,55.489 52.653,51.551Z", c[2]]]);
         this.armL=new Paths([
             ["M134.044,182.894c7.741,-8.178 -35.347,-23.924 -51.971,-30.03c-9.592,-3.524 -18.922,-2.049 -20.822,3.291c-1.901,5.34 4.344,12.536 13.935,16.059c16.625,6.107 50.413,19.601 58.858,10.68Z",c[2]],
@@ -123,7 +125,7 @@ export class Ninja extends Entity{
     update(t: number){
         const dt = (t-this.lt)/1000;
         if(dt<1){
-            this.xy.x+= this.f? -Game.s*dt : Game.s*dt;
+            if((this.s>0 && this.xy.x+Ninja.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
         }
 
         this.lt = t;

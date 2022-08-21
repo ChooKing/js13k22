@@ -12,14 +12,13 @@ Game.ctx = ctx;
 let m:Point={x:0,y:0};
 let mColor="rgb(255,255,255)";
 const viruses=[m];
-const ninja = new Ninja(100,100, viruses);
+const ninja = new Ninja(100,0, viruses);
 document.addEventListener('mousemove', (e) => {
     m.x=e.x-(window.innerWidth-Game.w)/2;
     m.y=e.y;
 });
 ninja.setCollider(()=>{
    mColor="rgb(255,0,0)";
-   console.log(mColor);
 });
 
 
@@ -32,6 +31,7 @@ const run=(time: number)=>{
     });
 
      */
+    ninja.update(time);
     ninja.draw(ctx);
 
     /*
