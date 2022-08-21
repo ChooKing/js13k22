@@ -4,19 +4,19 @@ import {Point} from "./types";
 const canvas = document.getElementById("canvas")! as HTMLCanvasElement;
 canvas.width=1600;
 canvas.height=900;
-const ctx = canvas.getContext("2d")!;
-// @ts-ignore
-Game.ctx = ctx;
-
-
+Game.ctx = canvas.getContext("2d")!;
+const ctx=Game.ctx!;
 let m:Point={x:0,y:0};
 let mColor="rgb(255,255,255)";
 const viruses=[m];
-const ninja = new Ninja(100,0, viruses);
+const ninja = new Ninja(0,471, viruses);
 document.addEventListener('mousemove', (e) => {
     m.x=e.x-(window.innerWidth-Game.w)/2;
     m.y=e.y;
 });
+document.addEventListener('click',(e)=>{
+    console.log(e.x-(window.innerWidth-Game.w)/2,e.y);
+})
 ninja.setCollider(()=>{
    mColor="rgb(255,0,0)";
 });
@@ -32,7 +32,7 @@ const run=(time: number)=>{
 
      */
     ninja.update(time);
-    ninja.draw(ctx);
+    ninja.draw();
 
     /*
     if(ninja.collide(ctx,m.x,m.y)){

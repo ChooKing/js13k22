@@ -1,5 +1,5 @@
 export const Game = {
-    ctx: CanvasRenderingContext2D,
+    ctx: undefined as CanvasRenderingContext2D|undefined,
     w: 1600, //canvas width
     h: 900, //canvas height
     tw: 100, //track width

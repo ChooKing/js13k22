@@ -4,7 +4,9 @@ import {Game} from "./game";
 type PathDef = [string, RGB]
 export class Paths{
     paths: ColoredPath[];
+    a: number;//angle
     constructor(p:PathDef[]) {
+        this.a=0;
         this.paths=Array();
         p.forEach((i)=>{
             this.paths.push([new Path2D(i[0]),i[1]]);
