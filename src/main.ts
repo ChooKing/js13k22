@@ -10,7 +10,7 @@ const ctx=Game.ctx!;
 let m:Point={x:0,y:0};
 let mColor="rgb(255,255,255)";
 const viruses=[m];
-const ninja = new Ninja(0,451, viruses);
+const ninja = new Ninja(0,0, viruses);
 document.addEventListener('mousemove', (e) => {
     m.x=e.x-(window.innerWidth-Game.w)/2;
     m.y=e.y;
@@ -25,11 +25,27 @@ const k=Keyboard.init();
 k.addDownHandler(" ",()=>{
     ninja.ct=true;
 });
+k.addDownHandler("ArrowRight",()=>{
+    if(ninja.s===0){
+        ninja.s=Game.ns;
+    }
+});
+k.addDownHandler("ArrowLeft",()=>{
+    if(ninja.s===0){
+        ninja.s=-Game.ns;
+    }
+});
 k.addUpHandler(" ",()=>{
     ninja.ct=false;
-
-})
-
+});
+k.addUpHandler("ArrowRight",()=>{
+    ninja.s=0;
+    console.log(ninja.s)
+});
+k.addUpHandler("ArrowLeft",()=>{
+    ninja.s=0;
+    console.log(ninja.s)
+});
 const run=(time: number)=>{
     ctx.clearRect(0, 0, Game.w, Game.h);
     /*

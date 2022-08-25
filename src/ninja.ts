@@ -1,7 +1,7 @@
 import {Entity} from "./entity";
 import {Game} from "./game";
 import {Paths} from "./Paths";
-import {Point} from "./types";
+import {Point, wp, Angles} from "./types";
 
 const c=[
     {r:1,g:1,b:0},
@@ -13,10 +13,23 @@ const c=[
     {r:86,g:84,b:79},
     {r:192,g:181,b:154}
 ];
-const mca=1.1; //maximum cutting angle
 const cs=0.2; //cutting speed
-const ctt=(x:number, y:number)=>{
-    Game.ctx!.translate(x,y);
+const rv=5; //rotations per second for everything other than cutting
+//keep outside of class to avoid using "this" (code golf)
+const rs:Angles={ //rotations
+    ca:{m:1.1,c:0}, //cutting angle
+    tl:{m:0.75,c:0}, //thigh left
+    sl:{m:0.5,c:0}, //shin left
+    tr:{m:-0.8,c:0}, //thigh right
+    sr:{m:-0.3,c:0}, //shin right
+    fr:{m:0.75,c:0} //foot right
+}
+const ctr=(x: number, y:number, a:number)=>{
+    const c=Game.ctx!;
+    c.save();
+    c.translate(x,y);
+    c.rotate(a);
+    c.translate(-x,-y);
 }
 export class Ninja extends Entity{
     static w = 189;
@@ -38,16 +51,17 @@ export class Ninja extends Entity{
     footL: Paths;
     //paths: Paths[];
     cols: Point[];
-    ca: number; //cutting angle
+    wp:wp;//walk phase
     onCollide?: ()=>void;
     constructor(x: number, y: number, col: Point[]) {
         super(x, y);
         this.xy={x:x, y:y};
         this.cols=col;
         this.f = false;
+        this.wp=0;
         this.lt = 0;
         this.s=0;
-        this.ca=0;
+
         this.ct=false;
         this.thighL=new Paths([["M129,360C145,357 115,310 103,292C96,282 85,277 77,282C70,286 69,298 76,309C88,327 111,364 129,360Z", c[2]]]);
         this.armL=new Paths([
@@ -127,33 +141,34 @@ export class Ninja extends Entity{
             ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),this.xy.y);
         }
         else ctx.translate(this.xy.x, this.xy.y);
-        ctx.save();
-        ctt(91,277);
-        ctx.rotate(this.ca/2);
-        ctt(-91,-277);
-        ctx.save();
-        ctt(66,186);
-        ctx.rotate(this.ca);
-        ctt(-66,-186);
+
+        ctr(91,277,rs["ca"].c/2);
+        ctr(66,186,rs["ca"].c);
         this.dp(this.armL);
         ctx.restore();
         this.dp(this.core);
-        ctx.save();
-        ctt(66,186);
-        ctx.rotate(this.ca);
-        ctt(-66,-186);
+        ctr(66,186,rs["ca"].c);
         this.sword.draw();
         this.dp(this.swHand);
         this.dp(this.armR);
         ctx.restore();
         ctx.restore();
+        ctr(66,298,rs["tl"].c);//0.75
         this.dp(this.thighL);
+        ctr(129,358,rs["sl"].c);//0.5
         this.dp(this.shinL);
         this.dp(this.footL);
+        ctx.restore();
+        ctx.restore();
+        ctr(66,298,rs["tr"].c);//-0.8
         this.dp(this.thighR);
+        ctr(58,365,0);//-0.3
         this.dp(this.shinR);
+        ctr(12,431,0);//0.75
         this.dp(this.footR);
-
+        ctx.restore();
+        ctx.restore();
+        ctx.restore();
         ctx.restore();
 
     }
@@ -161,16 +176,45 @@ export class Ninja extends Entity{
         this.onCollide=c;
     }
     update(t: number){
-        if(this.ct && this.ca<mca){
-            this.ca+=cs;
+        if(this.lt===0) this.lt=t;
+
+        if(this.ct && rs["ca"].c<rs["ca"].m){
+            rs["ca"].c+=cs;
         }
-        else if(!this.ct && this.ca>0){
-            this.ca-=cs;
-            if(this.ca<0) this.ca=0;
+        else if(!this.ct && rs["ca"].c>0){
+            rs["ca"].c-=cs;
+            if(rs["ca"].c<0) rs["ca"].c=0;
         }
         const dt = (t-this.lt)/1000;
-        if(dt<1){
-            if((this.s>0 && this.xy.x+Ninja.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
+        if((this.s>0 && this.xy.x+Ninja.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
+
+        if(this.s>0){
+            if(this.wp===0) this.wp=1;
+            if(this.wp===1){
+                if(rs["tl"].c<rs["tl"].m){
+                    rs["tl"].c+=rv*dt*rs["tl"].m;
+                    if(rs["tr"].c>rs["tr"].m){
+                        rs["tr"].c+=rv*dt*rs["tr"].m;
+                    }
+                    if(rs["sl"].c<rs["sl"].m){
+                        rs["sl"].c+=rv*dt*rs["sl"].m;
+                    }
+                }
+                else this.wp=2;
+            }
+            if(this.wp===2){
+                if(rs["tl"].c>0){
+                    rs["tl"].c-=rv*dt*rs["tl"].m;
+                    if(rs["tr"].c<0){
+                        rs["tr"].c-=rv*dt*rs["tr"].m;
+                    }
+                    if(rs["sl"].c>0){
+                        rs["sl"].c-=rv*dt*rs["sl"].m;
+                    }
+                }
+                else this.wp=1;
+            }
+
         }
 
         this.lt = t;
