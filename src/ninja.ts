@@ -14,7 +14,7 @@ const c=[
     {r:192,g:181,b:154}
 ];
 const cs=0.2; //cutting speed
-const rv=5; //rotations per second for everything other than cutting
+
 //keep outside of class to avoid using "this" (code golf)
 const rs:Angles={ //rotations
     ca:{m:1.1,c:0}, //cutting angle
@@ -181,6 +181,7 @@ export class Ninja extends Entity{
         this.onCollide=c;
     }
     update(t: number){
+        const rv=Game.ns/125; //rotations per second for everything other than cutting
         if(this.lt===0) this.lt=t;
 
         if(this.ct && rs["ca"].c<rs["ca"].m){
@@ -208,7 +209,7 @@ export class Ninja extends Entity{
                 else this.wp=2;
             }
             if(this.wp===2){
-                if(rs["tl"].c>0){
+                if(rs["tl"].c>-0.1){
                     rs["tl"].c-=rv*dt*rs["tl"].m;
                     rs["tr"].c-=rv*dt*rs["tr"].m;
                     rs["sl"].c-=rv*dt*rs["sl"].m;
