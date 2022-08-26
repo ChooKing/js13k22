@@ -20,9 +20,10 @@ const rs:Angles={ //rotations
     ca:{m:1.1,c:0}, //cutting angle
     tl:{m:0.75,c:0}, //thigh left
     sl:{m:0.5,c:0}, //shin left
+    fl:{m:-1.2,c:0},//foot left
     tr:{m:-0.8,c:0}, //thigh right
     sr:{m:-0.3,c:0}, //shin right
-    fr:{m:0.75,c:0} //foot right
+    fr:{m:0.8,c:0} //foot right
 }
 const ctr=(x: number, y:number, a:number)=>{
     const c=Game.ctx!;
@@ -145,6 +146,8 @@ export class Ninja extends Entity{
         ctr(91,277,rs["ca"].c/2);
         ctr(66,186,rs["ca"].c);
         this.dp(this.armL);
+
+
         ctx.restore();
         this.dp(this.core);
         ctr(66,186,rs["ca"].c);
@@ -157,14 +160,16 @@ export class Ninja extends Entity{
         this.dp(this.thighL);
         ctr(129,358,rs["sl"].c);//0.5
         this.dp(this.shinL);
+        ctr(152,423,rs["fl"].c);
         this.dp(this.footL);
+        ctx.restore();
         ctx.restore();
         ctx.restore();
         ctr(66,298,rs["tr"].c);//-0.8
         this.dp(this.thighR);
-        ctr(58,365,0);//-0.3
+        ctr(58,365,rs["sr"].c);//-0.3
         this.dp(this.shinR);
-        ctr(12,431,0);//0.75
+        ctr(12,431,rs["fr"].c);//0.75
         this.dp(this.footR);
         ctx.restore();
         ctx.restore();
@@ -193,24 +198,23 @@ export class Ninja extends Entity{
             if(this.wp===1){
                 if(rs["tl"].c<rs["tl"].m){
                     rs["tl"].c+=rv*dt*rs["tl"].m;
-                    if(rs["tr"].c>rs["tr"].m){
-                        rs["tr"].c+=rv*dt*rs["tr"].m;
-                    }
-                    if(rs["sl"].c<rs["sl"].m){
-                        rs["sl"].c+=rv*dt*rs["sl"].m;
-                    }
+                    rs["tr"].c+=rv*dt*rs["tr"].m;
+                    rs["sl"].c+=rv*dt*rs["sl"].m;
+                    rs["fl"].c+=rv*dt*rs["fl"].m;
+                    rs["sr"].c+=rv*dt*rs["sr"].m;
+                    rs["fr"].c+=rv*dt*rs["fr"].m;
+
                 }
                 else this.wp=2;
             }
             if(this.wp===2){
                 if(rs["tl"].c>0){
                     rs["tl"].c-=rv*dt*rs["tl"].m;
-                    if(rs["tr"].c<0){
-                        rs["tr"].c-=rv*dt*rs["tr"].m;
-                    }
-                    if(rs["sl"].c>0){
-                        rs["sl"].c-=rv*dt*rs["sl"].m;
-                    }
+                    rs["tr"].c-=rv*dt*rs["tr"].m;
+                    rs["sl"].c-=rv*dt*rs["sl"].m;
+                    rs["fl"].c-=rv*dt*rs["fl"].m;
+                    rs["sr"].c-=rv*dt*rs["sr"].m;
+                    rs["fr"].c-=rv*dt*rs["fr"].m;
                 }
                 else this.wp=1;
             }
