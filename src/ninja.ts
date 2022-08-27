@@ -1,7 +1,7 @@
 import {Entity} from "./entity";
 import {Game} from "./game";
 import {Paths} from "./Paths";
-import {Point, wp, Angles} from "./types";
+import {Point, wp} from "./types";
 
 const c=[
     {r:1,g:1,b:0},
@@ -15,15 +15,23 @@ const c=[
 ];
 const cs=0.2; //cutting speed
 
-//keep outside of class to avoid using "this" (code golf)
-const rs:Angles={ //rotations
-    ca:{m:1.1,c:0}, //cutting angle
-    tl:{m:0.75,c:0}, //thigh left
-    sl:{m:0.5,c:0}, //shin left
-    fl:{m:-1.2,c:0},//foot left
-    tr:{m:-0.8,c:0}, //thigh right
-    sr:{m:-0.3,c:0}, //shin right
-    fr:{m:0.8,c:0} //foot right
+interface angs{
+    ca: number;
+    tl: number;
+    sl: number;
+    fl: number;
+    tr: number
+    sr: number;
+    fr: number;
+}
+const mr:angs={ //maximum rotations
+    ca:1.1, //cutting angle
+    tl:0.75, //thigh left
+    sl:0.5, //shin left
+    fl:-1.2,//foot left
+    tr:-0.8, //thigh right
+    sr:-0.3, //shin right
+    fr:0.8 //foot right
 }
 const ctr=(x: number, y:number, a:number)=>{
     const c=Game.ctx!;
@@ -53,6 +61,7 @@ export class Ninja extends Entity{
     //paths: Paths[];
     cols: Point[];
     wp:wp;//walk phase
+    angs: angs;
     onCollide?: ()=>void;
     constructor(x: number, y: number, col: Point[]) {
         super(x, y);
@@ -62,7 +71,7 @@ export class Ninja extends Entity{
         this.wp=0;
         this.lt = 0;
         this.s=0;
-
+        this.angs={ca:0,tl:0,sl:0,fl:0,tr:0,sr:0,fr:0};
         this.ct=false;
         this.thighL=new Paths([["M129,360C145,357 115,310 103,292C96,282 85,277 77,282C70,286 69,298 76,309C88,327 111,364 129,360Z", c[2]]]);
         this.armL=new Paths([
@@ -143,33 +152,33 @@ export class Ninja extends Entity{
         }
         else ctx.translate(this.xy.x, this.xy.y);
 
-        ctr(91,277,rs["ca"].c/2);
-        ctr(66,186,rs["ca"].c);
+        ctr(91,277,this.angs.ca/2);
+        ctr(66,186,this.angs.ca);
         this.dp(this.armL);
 
 
         ctx.restore();
         this.dp(this.core);
-        ctr(66,186,rs["ca"].c);
+        ctr(66,186,this.angs.ca);
         this.sword.draw();
         this.dp(this.swHand);
         this.dp(this.armR);
         ctx.restore();
         ctx.restore();
-        ctr(66,298,rs["tl"].c);//0.75
+        ctr(66,298,this.angs.tl);//0.75
         this.dp(this.thighL);
-        ctr(129,358,rs["sl"].c);//0.5
+        ctr(129,358,this.angs.sl);//0.5
         this.dp(this.shinL);
-        ctr(152,423,rs["fl"].c);
+        ctr(152,423,this.angs.fl);
         this.dp(this.footL);
         ctx.restore();
         ctx.restore();
         ctx.restore();
-        ctr(66,298,rs["tr"].c);//-0.8
+        ctr(66,298,this.angs.tr);//-0.8
         this.dp(this.thighR);
-        ctr(58,365,rs["sr"].c);//-0.3
+        ctr(58,365,this.angs.sr);//-0.3
         this.dp(this.shinR);
-        ctr(12,431,rs["fr"].c);//0.75
+        ctr(12,431,this.angs.fr);//0.75
         this.dp(this.footR);
         ctx.restore();
         ctx.restore();
@@ -184,12 +193,12 @@ export class Ninja extends Entity{
         const rv=Game.ns/125; //rotations per second for everything other than cutting
         if(this.lt===0) this.lt=t;
 
-        if(this.ct && rs["ca"].c<rs["ca"].m){
-            rs["ca"].c+=cs;
+        if(this.ct && this.angs.ca<mr.ca){
+            this.angs.ca+=cs;
         }
-        else if(!this.ct && rs["ca"].c>0){
-            rs["ca"].c-=cs;
-            if(rs["ca"].c<0) rs["ca"].c=0;
+        else if(!this.ct && this.angs.ca>0){
+            this.angs.ca-=cs;
+            if(this.angs.ca<0) this.angs.ca=0;
         }
         const dt = (t-this.lt)/1000;
         if((this.s>0 && this.xy.x+Ninja.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
@@ -197,25 +206,25 @@ export class Ninja extends Entity{
         if(this.s>0){
             if(this.wp===0) this.wp=1;
             if(this.wp===1){
-                if(rs["tl"].c<rs["tl"].m){
-                    rs["tl"].c+=rv*dt*rs["tl"].m;
-                    rs["tr"].c+=rv*dt*rs["tr"].m;
-                    rs["sl"].c+=rv*dt*rs["sl"].m;
-                    rs["fl"].c+=rv*dt*rs["fl"].m;
-                    rs["sr"].c+=rv*dt*rs["sr"].m;
-                    rs["fr"].c+=rv*dt*rs["fr"].m;
+                if(this.angs.tl<mr.tl){
+                    this.angs.tl+=rv*dt*mr.tl;
+                    this.angs.tr+=rv*dt*mr.tr;
+                    this.angs.sl+=rv*dt*mr.sl;
+                    this.angs.fl+=rv*dt*mr.fl;
+                    this.angs.sr+=rv*dt*mr.sr;
+                    this.angs.fr+=rv*dt*mr.fr;
 
                 }
                 else this.wp=2;
             }
             if(this.wp===2){
-                if(rs["tl"].c>-0.1){
-                    rs["tl"].c-=rv*dt*rs["tl"].m;
-                    rs["tr"].c-=rv*dt*rs["tr"].m;
-                    rs["sl"].c-=rv*dt*rs["sl"].m;
-                    rs["fl"].c-=rv*dt*rs["fl"].m;
-                    rs["sr"].c-=rv*dt*rs["sr"].m;
-                    rs["fr"].c-=rv*dt*rs["fr"].m;
+                if(this.angs.tl>-0.1){
+                    this.angs.tl-=rv*dt*mr.tl;
+                    this.angs.tr-=rv*dt*mr.tr;
+                    this.angs.sl-=rv*dt*mr.sl;
+                    this.angs.fl-=rv*dt*mr.fl;
+                    this.angs.sr-=rv*dt*mr.sr;
+                    this.angs.fr-=rv*dt*mr.fr;
                 }
                 else this.wp=1;
             }
