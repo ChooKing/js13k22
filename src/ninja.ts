@@ -1,7 +1,7 @@
 import {Entity} from "./entity";
 import {Game} from "./game";
 import {Paths} from "./Paths";
-import {Point, wp} from "./types";
+import {Point, mp} from "./types";
 
 const c=[
     {r:1,g:1,b:0},
@@ -40,6 +40,7 @@ const ctr=(x: number, y:number, a:number)=>{
     c.rotate(a);
     c.translate(-x,-y);
 }
+const mcr=-0.3;
 export class Ninja extends Entity{
     static w = 189;
     static h = 449;
@@ -60,8 +61,10 @@ export class Ninja extends Entity{
     footL: Paths;
     //paths: Paths[];
     cols: Point[];
-    wp:wp;//walk phase
+    wp:mp;//walk phase
     angs: angs;
+    cr: number; //crouch factor
+    jmp: mp;
     onCollide?: ()=>void;
     constructor(x: number, y: number, col: Point[]) {
         super(x, y);
@@ -72,6 +75,9 @@ export class Ninja extends Entity{
         this.lt = 0;
         this.s=0;
         this.angs={ca:0,tl:0,sl:0,fl:0,tr:0,sr:0,fr:0};
+        //NOTE: SHIFT 33PX WHEN CROUCHING
+        this.cr=0;
+        this.jmp=0;
         this.ct=false;
         this.thighL=new Paths([["M129,360C145,357 115,310 103,292C96,282 85,277 77,282C70,286 69,298 76,309C88,327 111,364 129,360Z", c[2]]]);
         this.armL=new Paths([
@@ -149,20 +155,20 @@ export class Ninja extends Entity{
         this.dp(this.armR);
         ctx.restore();
         ctx.restore();
-        ctr(66,298,this.angs.tl);//0.75
+        ctr(66,298,this.angs.tl+this.cr);//0.75
         this.dp(this.thighL);
-        ctr(129,358,this.angs.sl);//0.5
+        ctr(129,358,this.angs.sl-this.cr*3);//0.5
         this.dp(this.shinL);
-        ctr(152,423,this.angs.fl);
+        ctr(152,423,this.angs.fl+this.cr*2);
         this.dp(this.footL);
         ctx.restore();
         ctx.restore();
         ctx.restore();
-        ctr(66,298,this.angs.tr);//-0.8
+        ctr(66,298,this.angs.tr+this.cr);//-0.8
         this.dp(this.thighR);
-        ctr(58,365,this.angs.sr);//-0.3
+        ctr(58,365,this.angs.sr-this.cr*3);//-0.3
         this.dp(this.shinR);
-        ctr(12,431,this.angs.fr);//0.75
+        ctr(12,431,this.angs.fr+this.cr*2);//0.75
         this.dp(this.footR);
         ctx.restore();
         ctx.restore();
@@ -212,6 +218,10 @@ export class Ninja extends Entity{
                 }
                 else this.wp=1;
             }
+
+        }
+        if(this.jmp===-1 && this.cr>mcr){
+            this.cr-=0.8*dt;
 
         }
 

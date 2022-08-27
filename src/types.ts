@@ -24,4 +24,4 @@ export interface aData {
 export type Angles=Record<string, aData>
 export type HandlerMap = Map<string, ()=>void>;
 export type ColoredPath = [Path2D, RGB];
-export type wp = -2|-1|0|1|2;
+export type mp = -2|-1|0|1|2;
