@@ -1,4 +1,4 @@
-import {Entity} from "./entity";
+import {Drawable} from "./drawable";
 import {Game} from "./game";
 import {Paths} from "./Paths";
 import {Point, mp} from "./types";
@@ -42,7 +42,7 @@ const ctr=(x: number, y:number, a:number)=>{
 }
 const mcr=-0.35;
 const crs=6; //crouch speed
-export class Ninja extends Entity{
+export class Ninja extends Drawable{
     static w = 189;
     static h = 449;
     s: number; //speed

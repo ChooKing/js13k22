@@ -1,6 +1,6 @@
 import {Point} from "./types";
 
-export abstract class Entity{
+export abstract class Drawable {
     xy: Point;
     constructor(x: number, y: number) {
         this.xy={x:x, y: y};

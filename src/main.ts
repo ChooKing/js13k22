@@ -2,6 +2,7 @@ import {Ninja} from "./ninja";
 import {Game} from "./game";
 import {Point} from "./types";
 import {Keyboard} from "./keyboard";
+import {Plat} from "./plat";
 const canvas = document.getElementById("canvas")! as HTMLCanvasElement;
 canvas.width=1600;
 canvas.height=900;
@@ -11,6 +12,7 @@ let m:Point={x:0,y:0};
 let mColor="rgb(255,255,255)";
 const viruses=[m];
 const ninja = new Ninja(0,440, viruses);
+const testPlat = new Plat(100,100,700);
 document.addEventListener('mousemove', (e) => {
     m.x=e.x-(window.innerWidth-Game.w)/2;
     m.y=e.y;
@@ -74,8 +76,10 @@ const run=(time: number)=>{
     });
 
      */
+    testPlat.draw();
     ninja.update(time);
     ninja.draw();
+
 
     /*
     if(ninja.collide(ctx,m.x,m.y)){
