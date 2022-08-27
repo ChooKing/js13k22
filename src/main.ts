@@ -26,12 +26,12 @@ k.addDownHandler(" ",()=>{
     ninja.ct=true;
 });
 k.addDownHandler("ArrowRight",()=>{
-    if(ninja.s===0){
+    if(ninja.jmp==0 && ninja.s===0){
         ninja.s=Game.ns;
     }
 });
 k.addDownHandler("ArrowLeft",()=>{
-    if(ninja.s===0){
+    if(ninja.jmp==0 && ninja.s===0){
         ninja.s=-Game.ns;
     }
 });
@@ -40,18 +40,24 @@ k.addDownHandler("ArrowDown",()=>{
         ninja.jmp=-1;
     }
 });
+k.addDownHandler("ArrowUp",()=>{
+    if(ninja.jmp==0){
+        ninja.jmp=1;
+    }
+});
 k.addUpHandler(" ",()=>{
     ninja.ct=false;
 });
 k.addUpHandler("ArrowRight",()=>{
-    ninja.s=0;
+    if(ninja.jmp==0) ninja.s=0;
 });
 k.addUpHandler("ArrowLeft",()=>{
-    ninja.s=0;
+    if(ninja.jmp==0) ninja.s=0;
 });
 k.addUpHandler("ArrowDown",()=>{
-    if(ninja.jmp===-1) ninja.jmp=0;
+    if(ninja.jmp==-1) ninja.jmp=0;
 });
+
 const run=(time: number)=>{
     ctx.clearRect(0, 0, Game.w, Game.h);
     /*
