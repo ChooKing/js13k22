@@ -116,22 +116,6 @@ export class Ninja extends Entity{
             ["M2,435C2,440 2,449 14,447C33,444 36,460 51,443C56,437 30,440 19,425C16,421 11,420 8,422L2,435Z",c[0]]
         ]);
 
-        //this.paths=Array();
-        /*
-        this.paths.push(this.armL);
-        this.paths.push(this.core);
-        this.paths.push(this.sword);
-        this.paths.push(this.swHand);
-        this.paths.push(this.thighL);
-        this.paths.push(this.shinL);
-        this.paths.push(this.footL);
-        this.paths.push(this.armR);
-        this.paths.push(this.thighR);
-        this.paths.push(this.shinR);
-        this.paths.push(this.footR);
-        this.armR.a=0;
-
-         */
     }
     checkCol(p:Paths){
         this.cols.forEach((co)=>{
