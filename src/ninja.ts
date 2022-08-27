@@ -40,7 +40,8 @@ const ctr=(x: number, y:number, a:number)=>{
     c.rotate(a);
     c.translate(-x,-y);
 }
-const mcr=-0.3;
+const mcr=-0.35;
+const crs=4; //crouch speed
 export class Ninja extends Entity{
     static w = 189;
     static h = 449;
@@ -65,6 +66,7 @@ export class Ninja extends Entity{
     angs: angs;
     cr: number; //crouch factor
     jmp: mp;
+    cy: number; //crouch y adjustment
     onCollide?: ()=>void;
     constructor(x: number, y: number, col: Point[]) {
         super(x, y);
@@ -77,6 +79,7 @@ export class Ninja extends Entity{
         this.angs={ca:0,tl:0,sl:0,fl:0,tr:0,sr:0,fr:0};
         //NOTE: SHIFT 33PX WHEN CROUCHING
         this.cr=0;
+        this.cy=0;
         this.jmp=0;
         this.ct=false;
         this.thighL=new Paths([["M129,360C145,357 115,310 103,292C96,282 85,277 77,282C70,286 69,298 76,309C88,327 111,364 129,360Z", c[2]]]);
@@ -138,18 +141,18 @@ export class Ninja extends Entity{
         const ctx=Game.ctx!;
         ctx.save();
         if(this.f){
-            ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),this.xy.y);
+            ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),this.xy.y+this.cy);
         }
-        else ctx.translate(this.xy.x, this.xy.y);
+        else ctx.translate(this.xy.x, this.xy.y+this.cy);
 
-        ctr(91,277,this.angs.ca/2);
-        ctr(66,186,this.angs.ca);
+        ctr(91,277,this.angs.ca/2 -this.cr);
+        ctr(66,186,this.angs.ca+this.cr);
         this.dp(this.armL);
 
 
         ctx.restore();
         this.dp(this.core);
-        ctr(66,186,this.angs.ca);
+        ctr(66,186,this.angs.ca+this.cr);
         this.sword.draw();
         this.dp(this.swHand);
         this.dp(this.armR);
@@ -221,10 +224,16 @@ export class Ninja extends Entity{
 
         }
         if(this.jmp===-1 && this.cr>mcr){
-            this.cr-=0.8*dt;
+            this.cr-=crs*dt;
+            this.cy+=440*dt;
+        }
+        if(this.jmp==0 && this.cr<0){
+            this.cr+=crs*dt;
+            if(this.cr>0) this.cr=0;
+            this.cy-=440*dt;
+            if(this.cy<0) this.cy=0;
 
         }
-
         this.lt = t;
     }
     /*

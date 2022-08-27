@@ -45,11 +45,12 @@ k.addUpHandler(" ",()=>{
 });
 k.addUpHandler("ArrowRight",()=>{
     ninja.s=0;
-    console.log(ninja.s)
 });
 k.addUpHandler("ArrowLeft",()=>{
     ninja.s=0;
-    console.log(ninja.s)
+});
+k.addUpHandler("ArrowDown",()=>{
+    if(ninja.jmp===-1) ninja.jmp=0;
 });
 const run=(time: number)=>{
     ctx.clearRect(0, 0, Game.w, Game.h);
