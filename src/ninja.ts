@@ -237,8 +237,8 @@ export class Ninja extends Entity{
 
         }
         if(this.jmp==1){
-            this.g*=1.2;
-            this.yo-=(600-this.g)*dt;
+            this.g*=1.4;
+            this.yo-=(1500-this.g)*dt;
             if(this.yo>=0){
                 this.yo=0;
                 this.jmp=-1;

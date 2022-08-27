@@ -13,5 +13,5 @@ export const Game = {
     ],
     pw: 80, //player width
     mGap: 5, //maximum gap as ratio of pw
-    ns: 600 //speed
+    ns: 800 //speed
 }

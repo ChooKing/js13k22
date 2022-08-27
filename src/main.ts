@@ -42,7 +42,14 @@ k.addDownHandler("ArrowDown",()=>{
 });
 k.addDownHandler("ArrowUp",()=>{
     if(ninja.jmp==0){
-        ninja.jmp=1;
+        ninja.jmp=-1;
+        setTimeout(()=>{
+            ninja.jmp=0;
+            setTimeout(()=>{
+                ninja.jmp=1;
+
+            },50)
+        },150);
     }
 });
 k.addUpHandler(" ",()=>{
