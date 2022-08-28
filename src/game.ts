@@ -2,16 +2,8 @@ export const Game = {
     ctx: undefined as CanvasRenderingContext2D|undefined,
     w: 1600, //canvas width
     h: 900, //canvas height
-    tw: 100, //track width
-    tg: 25, //track gap
-    colors: [
-        {r:66,g:127,b:164},
-        {r: 164, g: 127, b: 66},
-        {r: 127, g: 174, b: 66},
-        {r: 200, g: 66, b: 66},
-        {r: 200, g: 200, b: 200}
-    ],
-    pw: 80, //player width
-    mGap: 5, //maximum gap as ratio of pw
-    ns: 800 //speed
+    th: 225, //tile height
+    tw: 350, //tile width
+    tyo: 65, //tile Y offset
+    ns: 1200 //speed
 }

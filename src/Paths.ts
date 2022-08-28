@@ -1,6 +1,7 @@
 import {ColoredPath, RGB} from "./types";
 import {rgb2str} from "./util";
 import {Game} from "./game";
+import {tex} from "./tex";
 type PathDef = [string, RGB]
 export class Paths{
     paths: ColoredPath[];
@@ -13,11 +14,24 @@ export class Paths{
         });
     }
     draw(){
+        const ctx=Game.ctx!;
         for(let i=0;i<this.paths.length;i++){
-            // @ts-ignore
-            Game.ctx.fillStyle = rgb2str(this.paths[i][1]);
-            // @ts-ignore
-            Game.ctx.fill(this.paths[i][0]);
+            ctx.save();
+            let c=rgb2str(this.paths[i][1]);
+
+            if(c=="rgb(68,68,51)"){
+                ctx.fillStyle=tex.rock!;
+                ctx.filter="brightness(1.2)"
+            }
+            else if(c=="rgb(27,60,26)"){
+                ctx.fillStyle=tex.floor!;
+                ctx.filter="brightness(1)"
+            }
+            else ctx.fillStyle = c;
+
+            ctx.fill(this.paths[i][0]);
+
+            ctx.restore();
         }
     }
 }

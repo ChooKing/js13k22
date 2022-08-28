@@ -198,7 +198,7 @@ export class Ninja extends Drawable{
         const dt = (t-this.lt)/1000;
         if((this.s>0 && this.xy.x+Ninja.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
 
-        if(this.s>0 && this.jmp==0){
+        if(this.s>0 && this.jmp!=1){
             if(this.wp===0) this.wp=1;
             if(this.wp===1){
                 if(this.angs.tl<mr.tl){
@@ -238,7 +238,7 @@ export class Ninja extends Drawable{
         }
         if(this.jmp==1){
             this.g*=1.4;
-            this.yo-=(1500-this.g)*dt;
+            this.yo-=(1700-this.g)*dt;
             if(this.yo>=0){
                 this.yo=0;
                 this.jmp=-1;
