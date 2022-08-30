@@ -76,7 +76,7 @@ k.addUpHandler("ArrowDown",()=>{
 });
 bg.init();
 const run=(time: number)=>{
-    //ctx.clearRect(0, 0, Game.w, Game.h);
+    ctx.clearRect(0, 0, Game.w, Game.h);
 
     /*
     this.drawables.forEach((s)=>{
