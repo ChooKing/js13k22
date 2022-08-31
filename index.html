@@ -31,17 +31,15 @@
         </feDiffuseLighting>
       </filter>
       <filter id='plat'>
-        <feTurbulence type="fractalNoise" baseFrequency='0.01' result='pn' numOctaves="15" />
-      </filter>
-
-      <filter id="emb">
-        <feConvolveMatrix kernelMatrix="8 -1 -8 11 -10 6 15 0 0"/>
+        <feTurbulence type="fractalNoise" baseFrequency='0.8' result='pn' numOctaves="1" />
+        <feDiffuseLighting in='pn' lighting-color='#444433' surfaceScale='8'>
+          <feDistantLight azimuth='400' elevation='126' />
+        </feDiffuseLighting>
       </filter>
       <filter id="dil">
         <feMorphology operator="dilate" radius="1"/>
       </filter>
     </svg>
-
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

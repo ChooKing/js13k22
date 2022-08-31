@@ -1,7 +1,7 @@
 import {Game} from "./game";
 import {tex} from "./tex";
-const p = new Path2D("M0,0L1600,0L1600,900L0,900L0,0Z");
-const c = "rgb(33,30,27)";
+//const p = new Path2D("M0,0L1600,0L1600,900L0,900L0,0Z");
+//const c = "rgb(33,30,27)";
 
 
 

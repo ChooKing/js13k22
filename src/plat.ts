@@ -22,7 +22,8 @@ export class Plat extends Drawable{
         ctx.save()
         //ctx.translate(this.xy.x, this.xy.y);
         ctx.fillStyle=tex.floor!;
-        ctx.filter="url(#emb) brightness(0.8)";
+
+        ctx.filter="brightness(0.9)";
         ctx.beginPath();
         ctx.moveTo(this.xy.x,this.xy.y+60);
         ctx.lineTo(this.xy.x+(((cp.x-this.xy.x)*60)/(this.xy.y+60-cp.y)),this.xy.y);
@@ -31,7 +32,7 @@ export class Plat extends Drawable{
         ctx.lineTo(this.xy.x+this.l,this.xy.y+60);
         ctx.lineTo(this.xy.x,this.xy.y+60);
         ctx.fill();
-        ctx.fillStyle=tex.rock!;
+        ctx.fillStyle=tex.floor!;
         ctx.filter="url(#dil) brightness(0.8)";
         ctx.fillRect(this.xy.x,this.xy.y+60,this.l,17);
         /*
@@ -85,5 +86,6 @@ export class Plat extends Drawable{
 
     }
     update(t: number) {
+        console.log(t)
     }
 }
