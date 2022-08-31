@@ -2,6 +2,8 @@ import {Point} from "./types";
 
 export abstract class Drawable {
     xy: Point;
+    w!: number;
+    h!: number;
     constructor(x: number, y: number) {
         this.xy={x:x, y: y};
     }

@@ -2,6 +2,7 @@ import {Drawable} from "./drawable";
 import {Game} from "./game";
 import {Paths} from "./Paths";
 import {Point, mp} from "./types";
+import {Plat} from "./plat";
 
 const c=[
     {r:1,g:1,b:0},
@@ -43,8 +44,8 @@ const ctr=(x: number, y:number, a:number)=>{
 const mcr=-0.35;
 const crs=6; //crouch speed
 export class Ninja extends Drawable{
-    static w = 189;
-    static h = 449;
+    w:number;
+    h:number;
     s: number; //speed
     f: boolean;
     lt: number;//last update time
@@ -68,9 +69,12 @@ export class Ninja extends Drawable{
     jmp: mp;
     yo: number; //crouch y adjustment
     g: number; //gravity acceleration factor
+    pl: Plat|null;
     onCollide?: ()=>void;
     constructor(x: number, y: number, col: Point[]) {
         super(x, y);
+        this.w=189;
+        this.h=449;
         this.xy={x:x, y:y};
         this.cols=col;
         this.f = false;
@@ -83,6 +87,7 @@ export class Ninja extends Drawable{
         this.cr=0;
         this.yo=0;  //jump y and crouch y offset
         this.jmp=0;
+        this.pl=null;
         this.ct=false;
         this.thighL=new Paths([["M129,360C145,357 115,310 103,292C96,282 85,277 77,282C70,286 69,298 76,309C88,327 111,364 129,360Z", c[2]]]);
         this.armL=new Paths([
@@ -143,7 +148,7 @@ export class Ninja extends Drawable{
         const ctx=Game.ctx!;
         ctx.save();
         if(this.f){
-            ctx.setTransform(-1,0,0,1,Ninja.w+(this.xy.x*2),this.xy.y+this.yo);
+            ctx.setTransform(-1,0,0,1,this.w+(this.xy.x*2),this.xy.y+this.yo);
         }
         else ctx.translate(this.xy.x, this.xy.y+this.yo);
 
@@ -180,11 +185,23 @@ export class Ninja extends Drawable{
         ctx.restore();
         ctx.restore();
 
+        ctx.save();
+        ctx.strokeStyle="rgb(255,0,0)";
+        ctx.strokeRect(this.xy.x,this.xy.y+this.yo,this.w,this.h);
+        ctx.restore();
+
     }
     setCollider(c:()=>void){
         this.onCollide=c;
     }
     update(t: number){
+        this.pl=null;
+        Game.ps.forEach(p=>{
+            if(p.xin(this)&&(p.xy.y-(this.xy.y+this.h+this.yo-39)<10)){
+                this.pl=p;
+            }
+        });
+
         const rv=Game.ns/125; //rotations per second for everything other than cutting
         if(this.lt===0) this.lt=t;
 
@@ -196,7 +213,7 @@ export class Ninja extends Drawable{
             if(this.angs.ca<0) this.angs.ca=0;
         }
         const dt = (t-this.lt)/1000;
-        if((this.s>0 && this.xy.x+Ninja.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
+        if((this.s>0 && this.xy.x+this.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
 
         if(this.s>0 && this.jmp!=1){
             if(this.wp===0) this.wp=1;
@@ -236,14 +253,20 @@ export class Ninja extends Drawable{
             if(this.yo<0) this.yo=0;
 
         }
+
         if(this.jmp==1){
             this.g*=1.4;
             this.yo-=(1700-this.g)*dt;
-            if(this.yo>=0){
+
+            if(this.pl!=null && this.g>2){
+                console.log("floor")
+                const p:Plat = this.pl;
+                this.xy.y=p.xy.y-this.h+39;
                 this.yo=0;
                 this.jmp=-1;
                 this.g=1;
                 this.s=0;
+
                 setTimeout(()=>{
                     this.jmp=0;
                 },200)
