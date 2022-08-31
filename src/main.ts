@@ -47,6 +47,7 @@ k.addDownHandler("ArrowDown",()=>{
 });
 k.addDownHandler("ArrowUp",()=>{
     if(ninja.jmp==0){
+        ninja.ij=1700;
         ninja.jmp=-1;
         setTimeout(()=>{
             ninja.jmp=0;

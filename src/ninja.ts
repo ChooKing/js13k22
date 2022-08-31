@@ -70,6 +70,7 @@ export class Ninja extends Drawable{
     yo: number; //crouch y adjustment
     g: number; //gravity acceleration factor
     pl: Plat|null;
+    ij: number; //initial jump speed
     onCollide?: ()=>void;
     constructor(x: number, y: number, col: Point[]) {
         super(x, y);
@@ -82,6 +83,7 @@ export class Ninja extends Drawable{
         this.lt = 0;
         this.s=0;
         this.g=1;
+        this.ij=0;
         this.angs={ca:0,tl:0,sl:0,fl:0,tr:0,sr:0,fr:0};
         //NOTE: SHIFT 33PX WHEN CROUCHING
         this.cr=0;
@@ -257,10 +259,15 @@ export class Ninja extends Drawable{
                 if(this.yo<0) this.yo=0;
 
             }
+            if(this.jmp==0 && !this.pl){
+                this.ij=0;
+                this.jmp=1;
+
+            }
 
             if(this.jmp==1){
                 this.g*=1.4;
-                this.yo-=(1700-this.g)*dt;
+                this.yo-=(this.ij-this.g)*dt;
 
                 if(this.pl!=null && this.g>2){
                     const p:Plat = this.pl;
