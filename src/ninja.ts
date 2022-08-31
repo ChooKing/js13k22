@@ -195,86 +195,92 @@ export class Ninja extends Drawable{
         this.onCollide=c;
     }
     update(t: number){
-        this.pl=null;
-        Game.ps.forEach(p=>{
-            if(p.xin(this)&&(p.xy.y-(this.xy.y+this.h+this.yo-39)<10)){
-                this.pl=p;
-            }
-        });
-
-        const rv=Game.ns/125; //rotations per second for everything other than cutting
-        if(this.lt===0) this.lt=t;
-
-        if(this.ct && this.angs.ca<mr.ca){
-            this.angs.ca+=cs;
+        if(this.xy.y+this.yo>Game.h+10){
+            console.log("died")
         }
-        else if(!this.ct && this.angs.ca>0){
-            this.angs.ca-=cs;
-            if(this.angs.ca<0) this.angs.ca=0;
-        }
-        const dt = (t-this.lt)/1000;
-        if((this.s>0 && this.xy.x+this.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
-
-        if(this.s>0 && this.jmp!=1){
-            if(this.wp===0) this.wp=1;
-            if(this.wp===1){
-                if(this.angs.tl<mr.tl){
-                    this.angs.tl+=rv*dt*mr.tl;
-                    this.angs.tr+=rv*dt*mr.tr;
-                    this.angs.sl+=rv*dt*mr.sl;
-                    this.angs.fl+=rv*dt*mr.fl;
-                    this.angs.sr+=rv*dt*mr.sr;
-                    this.angs.fr+=rv*dt*mr.fr;
-
+        else{
+            this.pl=null;
+            Game.ps.forEach(p=>{
+                if(p.xin(this)&&(p.xy.y-(this.xy.y+this.h+this.yo-39)<1)){
+                    this.pl=p;
                 }
-                else this.wp=2;
+            });
+
+            const rv=Game.ns/125; //rotations per second for everything other than cutting
+            if(this.lt===0) this.lt=t;
+
+            if(this.ct && this.angs.ca<mr.ca){
+                this.angs.ca+=cs;
             }
-            if(this.wp===2){
-                if(this.angs.tl>-0.1){
-                    this.angs.tl-=rv*dt*mr.tl;
-                    this.angs.tr-=rv*dt*mr.tr;
-                    this.angs.sl-=rv*dt*mr.sl;
-                    this.angs.fl-=rv*dt*mr.fl;
-                    this.angs.sr-=rv*dt*mr.sr;
-                    this.angs.fr-=rv*dt*mr.fr;
+            else if(!this.ct && this.angs.ca>0){
+                this.angs.ca-=cs;
+                if(this.angs.ca<0) this.angs.ca=0;
+            }
+            const dt = (t-this.lt)/1000;
+            if((this.s>0 && this.xy.x+this.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
+
+            if(this.s>0 && this.jmp!=1){
+                if(this.wp===0) this.wp=1;
+                if(this.wp===1){
+                    if(this.angs.tl<mr.tl){
+                        this.angs.tl+=rv*dt*mr.tl;
+                        this.angs.tr+=rv*dt*mr.tr;
+                        this.angs.sl+=rv*dt*mr.sl;
+                        this.angs.fl+=rv*dt*mr.fl;
+                        this.angs.sr+=rv*dt*mr.sr;
+                        this.angs.fr+=rv*dt*mr.fr;
+
+                    }
+                    else this.wp=2;
                 }
-                else this.wp=1;
+                if(this.wp===2){
+                    if(this.angs.tl>-0.1){
+                        this.angs.tl-=rv*dt*mr.tl;
+                        this.angs.tr-=rv*dt*mr.tr;
+                        this.angs.sl-=rv*dt*mr.sl;
+                        this.angs.fl-=rv*dt*mr.fl;
+                        this.angs.sr-=rv*dt*mr.sr;
+                        this.angs.fr-=rv*dt*mr.fr;
+                    }
+                    else this.wp=1;
+                }
+
+            }
+            if(this.jmp==-1 && this.cr>mcr){
+                this.cr-=crs*dt;
+                this.yo+=440*dt;
+            }
+            if(this.jmp==0 && this.cr<0){
+                this.cr+=crs*dt;
+                if(this.cr>0) this.cr=0;
+                this.yo-=440*dt;
+                if(this.yo<0) this.yo=0;
+
             }
 
-        }
-        if(this.jmp==-1 && this.cr>mcr){
-            this.cr-=crs*dt;
-            this.yo+=440*dt;
-        }
-        if(this.jmp==0 && this.cr<0){
-            this.cr+=crs*dt;
-            if(this.cr>0) this.cr=0;
-            this.yo-=440*dt;
-            if(this.yo<0) this.yo=0;
+            if(this.jmp==1){
+                this.g*=1.4;
+                this.yo-=(1700-this.g)*dt;
 
-        }
+                if(this.pl!=null && this.g>2){
+                    const p:Plat = this.pl;
+                    this.xy.y=p.xy.y-this.h+39;
+                    this.yo=0;
+                    this.jmp=-1;
+                    this.g=1;
+                    this.s=0;
 
-        if(this.jmp==1){
-            this.g*=1.4;
-            this.yo-=(1700-this.g)*dt;
-
-            if(this.pl!=null && this.g>2){
-                console.log("floor")
-                const p:Plat = this.pl;
-                this.xy.y=p.xy.y-this.h+39;
-                this.yo=0;
-                this.jmp=-1;
-                this.g=1;
-                this.s=0;
-
-                setTimeout(()=>{
-                    this.jmp=0;
-                },200)
+                    setTimeout(()=>{
+                        this.jmp=0;
+                    },200)
+                }
             }
+
+            this.lt = t;
         }
 
-        this.lt = t;
-    }
+        }
+
     /*
     collide(ctx: CanvasRenderingContext2D,x:number, y:number){
         let c=false
