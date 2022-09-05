@@ -28,17 +28,24 @@ export class Plat extends Drawable{
     draw() {
         const ctx=Game.ctx!;
         ctx.save()
-        //ctx.translate(this.xy.x, this.xy.y);
-        ctx.fillStyle=tex.floor!;
 
-        ctx.filter="brightness(1.2)";
+        //ctx.fillStyle=tex.floor!;
+
+        //ctx.filter="brightness(1.2)";
         ctx.beginPath();
         ctx.moveTo(this.vx,this.vy+60);
         ctx.lineTo(this.vx+(((cp.x-this.vx)*60)/(this.vy+60-cp.y)),this.vy);
         ctx.lineTo(this.vx+this.w-(((this.vx+this.w-cp.x)*60)/(this.vy+60-cp.y)),this.vy);
         ctx.lineTo(this.vx+this.w,this.vy+60);
         ctx.lineTo(this.vx,this.vy+60);
-        ctx.fill();
+        //ctx.fill();
+        ctx.clip();
+        ctx.drawImage(tex.fc!,this.xy.x-Game.cx,this.xy.y-Game.cy);
+        ctx.restore();
+        ctx.save();
+
+
+
         ctx.fillStyle=tex.floor!;
         ctx.filter="url(#dil) brightness(1.1)";
         ctx.fillRect(this.vx,this.vy+60,this.w,17);

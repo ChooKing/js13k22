@@ -15,7 +15,9 @@ export const Game = {
     ls: false, //like side movement
     init:()=>{
         Game.ps=[new Plat(2,2,1),
-            new Plat(0, 0, 8)]
+            new Plat(0, 0, 2),
+            new Plat(3, 0, 2),
+            new Plat(5,2,1),]
 
     },
     ps: [] as Array<Plat>
