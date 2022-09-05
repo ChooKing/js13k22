@@ -146,13 +146,19 @@ export class Ninja extends Drawable{
         p.draw();
         this.checkCol(p);
     }
+    get vx(){
+        return this.xy.x-Game.cx;
+    }
+    get vy(){
+        return this.xy.y-Game.cy;
+    }
     draw() {
         const ctx=Game.ctx!;
         ctx.save();
         if(this.f){
-            ctx.setTransform(-1,0,0,1,this.w+(this.xy.x*2),this.xy.y+this.yo);
+            ctx.setTransform(-1,0,0,1,this.w+(this.vx*2),this.vy+this.yo);
         }
-        else ctx.translate(this.xy.x, this.xy.y+this.yo);
+        else ctx.translate(this.vx, this.vy+this.yo);
 
         ctr(91,277,this.angs.ca/2 -this.cr);
         ctr(66,186,this.angs.ca+this.cr);
@@ -186,24 +192,26 @@ export class Ninja extends Drawable{
         ctx.restore();
         ctx.restore();
         ctx.restore();
-
+/*
         ctx.save();
         ctx.strokeStyle="rgb(255,0,0)";
         ctx.strokeRect(this.xy.x,this.xy.y+this.yo,this.w,this.h);
         ctx.restore();
 
+
+ */
     }
     setCollider(c:()=>void){
         this.onCollide=c;
     }
     update(t: number){
-        if(this.xy.y+this.yo>Game.h+10){
+        if(this.xy.y+this.yo>Game.ch+10){
             console.log("died")
         }
         else{
             this.pl=null;
             Game.ps.forEach(p=>{
-                if(p.xin(this)&&(p.xy.y-(this.xy.y+this.h+this.yo-39)<1)){
+                if(p.xin(this)&&(p.xy.y-(this.xy.y+this.h+this.yo-39)<4)){
                     this.pl=p;
                 }
             });
@@ -219,8 +227,13 @@ export class Ninja extends Drawable{
                 if(this.angs.ca<0) this.angs.ca=0;
             }
             const dt = (t-this.lt)/1000;
-            if((this.s>0 && this.xy.x+this.w<Game.w)||(this.s<0 && this.xy.x>0)) this.xy.x+= this.s*dt;
+            if((this.s>0 && this.xy.x+this.w<Game.ww)||(this.s<0 && this.xy.x>0)){
+                this.xy.x+= this.s*dt;
+                if(this.xy.x>Game.cw/2 && this.xy.x<Game.ww-(Game.cw/2)){
+                    Game.cx = this.xy.x-(Game.cw/2);
+                }
 
+            }
             if(this.s>0 && this.jmp!=1){
                 if(this.wp===0) this.wp=1;
                 if(this.wp===1){
@@ -276,7 +289,6 @@ export class Ninja extends Drawable{
                     this.jmp=-1;
                     this.g=1;
                     this.s=0;
-
                     setTimeout(()=>{
                         this.jmp=0;
                     },200)

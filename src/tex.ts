@@ -1,25 +1,28 @@
 import {Game} from "./game";
 export const tex={
-    can: null as HTMLCanvasElement|null,
-    ctx: null as CanvasRenderingContext2D|null,
+    rc: null as HTMLCanvasElement|null, //rock canvas
+    fc: null as HTMLCanvasElement|null, //floor canvas
+    rctx: null as CanvasRenderingContext2D|null,
+    fctx: null as CanvasRenderingContext2D|null,
     rock: null as CanvasPattern|null,
     floor: null as CanvasPattern|null,
     init:()=>{
-        tex.can = document.createElement("canvas");
-        tex.can.width=Game.w;
-        tex.can.height=Game.h;
-        tex.ctx = tex.can.getContext("2d");
-        const ctx=tex.ctx!;
+        tex.rc = document.createElement("canvas");
+        tex.rc.width=Game.cw*2;
+        tex.rc.height=Game.ch*2;
+        tex.rctx = tex.rc.getContext("2d");
+        const ctx=tex.rctx!;
         ctx.filter="url(#rock)";
-        ctx.fillRect(0,0,Game.w,Game.h);
-        tex.rock = Game.ctx!.createPattern(tex.can,null);
-        setTimeout(()=>{
-            tex.ctx!.clearRect(0,0,Game.w,Game.h);
-            ctx.filter="url(#plat)";
-            ctx.fillRect(0,0,Game.w,Game.h);
-            tex.floor= Game.ctx!.createPattern(tex.can!,null);
+        ctx.fillRect(0,0,Game.cw*2,Game.ch*2);
+        tex.rock = Game.ctx!.createPattern(tex.rc,null);
 
-        },250)
-
+        tex.fc = document.createElement("canvas");
+        tex.fc.width=Game.cw;
+        tex.fc.height=Game.ch;
+        tex.fctx = tex.fc.getContext("2d");
+        const fctx=tex.fctx!;
+        fctx.filter="url(#plat)";
+        fctx.fillRect(0,0,Game.cw,Game.ch);
+        tex.floor = Game.ctx!.createPattern(tex.fc,null);
     }
 }

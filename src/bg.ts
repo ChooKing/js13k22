@@ -6,11 +6,12 @@ import {tex} from "./tex";
 
 
 export const bg={
-    iData:null as ImageData|null,
-    buf: null as Uint32Array|null,
-    p: null as CanvasPattern|null,
+    //iData:null as ImageData|null,
+    //buf: null as Uint32Array|null,
+    //p: null as CanvasPattern|null,
+    /*
     init:()=>{
-        bg.iData = Game.ctx!.createImageData(Game.w, Game.h);
+        bg.iData = Game.ctx!.createImageData(Game.cw, Game.ch);
         bg.buf = new Uint32Array(bg.iData.data.buffer);
 
         for (let i=0;i<bg.buf.length;i++){
@@ -21,17 +22,18 @@ export const bg={
         });
 
     },
+
+     */
     draw:()=>{
         const ctx=Game.ctx!;
-        //ctx.fillStyle=bg.p!;
-        ctx.save();
-        //ctx.filter="url(#rock)";
-        ctx.fillStyle=tex.rock!;
-        ctx.fillRect(0,0,Game.w,Game.h);
-        ctx.restore();
+        ctx.drawImage(tex.rc!,-Game.cx,-Game.cy);
         /*
-        ctx.fillStyle=c;
-        ctx.fill(p);
+        ctx.save();
+
+        ctx.fillStyle=tex.rock!;
+        ctx.fillRect(-Game.cx,Game.cy,Game.cw*2,Game.ch*2);
+        ctx.restore();
+
 
          */
     }

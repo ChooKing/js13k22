@@ -17,11 +17,11 @@ const ninja = new Ninja(0,425, viruses);
 
 tex.init();
 document.addEventListener('mousemove', (e) => {
-    m.x=e.x-(window.innerWidth-Game.w)/2;
+    m.x=e.x-(window.innerWidth-Game.cw)/2;
     m.y=e.y;
 });
 document.addEventListener('click',(e)=>{
-    console.log(e.x-(window.innerWidth-Game.w)/2,e.y);
+    console.log(e.x-(window.innerWidth-Game.cw)/2,e.y);
 })
 ninja.setCollider(()=>{
    mColor="rgb(255,0,0)";
@@ -31,12 +31,12 @@ k.addDownHandler(" ",()=>{
     ninja.ct=true;
 });
 k.addDownHandler("ArrowRight",()=>{
-    if(ninja.jmp!=1 && ninja.s===0){
+    if(!Game.ls){
         ninja.s=Game.ns;
     }
 });
 k.addDownHandler("ArrowLeft",()=>{
-    if(ninja.jmp!=1 && ninja.s===0){
+    if(!Game.ls){
         ninja.s=-Game.ns;
     }
 });
@@ -53,7 +53,6 @@ k.addDownHandler("ArrowUp",()=>{
             ninja.jmp=0;
             setTimeout(()=>{
                 ninja.jmp=1;
-
             },50)
         },150);
     }
@@ -74,9 +73,9 @@ k.addUpHandler("ArrowDown",()=>{
     }
 
 });
-bg.init();
+//bg.init();
 const run=(time: number)=>{
-    ctx.clearRect(0, 0, Game.w, Game.h);
+    ctx.clearRect(0, 0, Game.cw, Game.ch);
 
     /*
     this.drawables.forEach((s)=>{
@@ -88,7 +87,11 @@ const run=(time: number)=>{
     bg.draw();
 
 
-    Game.ps.forEach(p=>p.draw());
+    Game.ps.forEach(p=>{
+        //p.update(time);
+        p.draw();
+
+    });
     ninja.update(time);
     ninja.draw();
 
