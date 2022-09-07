@@ -13,7 +13,7 @@ const ctx=Game.ctx!;
 let m:Point={x:0,y:0};
 let mColor="rgb(255,255,255)";
 const viruses=[m];
-const ninja = new Ninja(0,425, viruses);
+const ninja = new Ninja(0,0, viruses);//y425
 
 tex.init();
 document.addEventListener('mousemove', (e) => {
@@ -47,12 +47,14 @@ k.addDownHandler("ArrowDown",()=>{
 });
 k.addDownHandler("ArrowUp",()=>{
     if(ninja.jmp==0){
-        ninja.ij=1700;
+
         ninja.jmp=-1;
         setTimeout(()=>{
             ninja.jmp=0;
             setTimeout(()=>{
+                ninja.ij=1700;
                 ninja.jmp=1;
+                ninja.cr=0;
             },50)
         },150);
     }
@@ -61,10 +63,12 @@ k.addUpHandler(" ",()=>{
     ninja.ct=false;
 });
 k.addUpHandler("ArrowRight",()=>{
-    if(ninja.jmp==0) ninja.s=0;
+    //if(ninja.jmp==0) ninja.s=0;
+    ninja.s=0;
 });
 k.addUpHandler("ArrowLeft",()=>{
-    if(ninja.jmp==0) ninja.s=0;
+    //if(ninja.jmp==0) ninja.s=0;
+    ninja.s=0;
 });
 k.addUpHandler("ArrowDown",()=>{
     if(ninja.jmp==-1){

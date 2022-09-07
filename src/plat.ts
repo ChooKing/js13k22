@@ -26,6 +26,7 @@ export class Plat extends Drawable{
         return this.xy.y-Game.cy;
     }
     draw() {
+        cp.x=Game.cx+Game.cw/2;
         const ctx=Game.ctx!;
         ctx.save()
 
@@ -42,6 +43,8 @@ export class Plat extends Drawable{
         ctx.clip();
         ctx.drawImage(tex.fc!,this.xy.x-Game.cx,this.xy.y-Game.cy);
         ctx.restore();
+
+
         ctx.save();
 
 

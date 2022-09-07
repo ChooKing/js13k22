@@ -205,16 +205,23 @@ export class Ninja extends Drawable{
         this.onCollide=c;
     }
     update(t: number){
-        if(this.xy.y+this.yo>Game.ch+10){
+        const st = this.pl!=null;
+        const dt = (t-this.lt)/1000;
+        const ff=(this.ij-this.g)*dt;//fall factor
+        if(this.xy.y+this.yo>Game.ch+this.h){
             console.log("died")
         }
         else{
-            this.pl=null;
-            Game.ps.forEach(p=>{
-                if(p.xin(this)&&(p.xy.y-(this.xy.y+this.h+this.yo-39)<4)){
-                    this.pl=p;
-                }
-            });
+            if(this.cr==0){
+                this.pl=null;
+                Game.ps.forEach(p=>{
+                    const pd=p.xy.y-(this.xy.y+this.h+this.yo-39);
+                    if((p.xin(this))&&(pd>=0)&&(pd+ff<=0)){
+                        this.pl=p;
+                    }
+                });
+            }
+
 
             const rv=Game.ns/125; //rotations per second for everything other than cutting
             if(this.lt===0) this.lt=t;
@@ -226,7 +233,7 @@ export class Ninja extends Drawable{
                 this.angs.ca-=cs;
                 if(this.angs.ca<0) this.angs.ca=0;
             }
-            const dt = (t-this.lt)/1000;
+
             if((this.s>0 && this.xy.x+this.w<Game.ww)||(this.s<0 && this.xy.x>0)){
                 this.xy.x+= this.s*dt;
                 if(this.xy.x>Game.cw/2 && this.xy.x<Game.ww-(Game.cw/2)){
@@ -272,11 +279,41 @@ export class Ninja extends Drawable{
                 if(this.yo<0) this.yo=0;
 
             }
-            if(this.jmp==0 && !this.pl){
-                this.ij=0;
-                this.jmp=1;
+            if(this.jmp==1){
+
+                this.g*=1.4;
+                this.yo-=ff;
 
             }
+            if(!this.pl){
+                this.g*=1.4;
+                this.yo-=ff;
+
+            }
+            else if(!st && this.cr==0){
+                const p:Plat = this.pl;
+                this.ij=0;
+                this.xy.y=p.xy.y-this.h+39;
+                this.yo=0;
+                this.jmp=-1;
+                this.g=1;
+                this.s=0;
+                setTimeout(()=>{
+                    this.jmp=0;
+                },200);
+
+            }
+
+            /*
+            if(this.jmp==0 && !this.pl){
+                this.ij=0;
+                this.g*=1.4;
+                this.yo-=(this.ij-this.g)*dt;
+                this.jmp=-2;
+
+            }
+
+
 
             if(this.jmp==1){
                 this.g*=1.4;
@@ -284,16 +321,34 @@ export class Ninja extends Drawable{
 
                 if(this.pl!=null && this.g>2){
                     const p:Plat = this.pl;
-                    this.xy.y=p.xy.y-this.h+39;
-                    this.yo=0;
-                    this.jmp=-1;
-                    this.g=1;
-                    this.s=0;
-                    setTimeout(()=>{
-                        this.jmp=0;
-                    },200)
+
+                    if(p.xy.y-this.xy.y>-40){
+                        this.xy.y=p.xy.y-this.h+39;
+                        this.yo=0;
+                        this.jmp=-1;
+                        this.g=1;
+                        this.s=0;
+                        setTimeout(()=>{
+                            this.jmp=0;
+                        },200);
+                    }
+
                 }
             }
+            if(this.jmp==-2){
+                this.g*=1.4;
+                this.yo-=(this.ij-this.g)*dt;
+                if(this.pl!=null){
+                    this.xy.y=this.xy.y+this.yo;
+                    this.yo=0;
+                    this.g=1;
+                    this.s=0;
+                    this.jmp=0;
+
+                }
+            }
+
+             */
 
             this.lt = t;
         }
