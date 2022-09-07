@@ -28,7 +28,7 @@ export const tex={
         const id = Game.ctx!.createImageData(Game.cw,Game.ch);
         const buf = new Uint32Array(id.data.buffer);
         for(let i=0;i<buf.length;i++){
-            buf[i] = (i%Game.ch)*Math.random()<200? 0xff112222+Math.random()*3:0xff334444;
+            buf[i] = Math.floor(i/Game.ch/(Math.random()*8))*Math.random()<1? 0xff112211+((Math.random()*40)):0xff334444;
         }
         tex.fctx!.putImageData(id,0,0);
     }
