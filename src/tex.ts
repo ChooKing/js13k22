@@ -24,6 +24,13 @@ export const tex={
         fctx.filter="url(#plat)";
         fctx.fillRect(0,0,Game.cw,Game.ch);
         tex.floor = Game.ctx!.createPattern(tex.fc,null);
+
+        const id = Game.ctx!.createImageData(Game.cw,Game.ch);
+        const buf = new Uint32Array(id.data.buffer);
+        for(let i=0;i<buf.length;i++){
+            buf[i] = (i%Game.ch)*Math.random()<200? 0xff112222+Math.random()*3:0xff334444;
+        }
+        tex.fctx!.putImageData(id,0,0);
     }
 }
 

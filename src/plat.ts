@@ -32,7 +32,7 @@ export class Plat extends Drawable{
 
         //ctx.fillStyle=tex.floor!;
 
-        //ctx.filter="brightness(1.2)";
+        ctx.filter="brightness(1.5)";
         ctx.beginPath();
         ctx.moveTo(this.vx,this.vy+60);
         ctx.lineTo(this.vx+(((cp.x-this.vx)*60)/(this.vy+60-cp.y)),this.vy);
