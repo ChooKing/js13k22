@@ -4,6 +4,7 @@ import {Point} from "./types";
 import {Keyboard} from "./keyboard";
 import {tex} from "./tex";
 import {bg} from "./bg";
+import {Zombie} from "./zombie";
 const canvas = document.getElementById("canvas")! as HTMLCanvasElement;
 canvas.width=1600;
 canvas.height=900;
@@ -14,6 +15,7 @@ let m:Point={x:0,y:0};
 let mColor="rgb(255,255,255)";
 const viruses=[m];
 const ninja = new Ninja(0,0, viruses);//y425
+const zmb = new Zombie(0,0, []);
 
 tex.init();
 document.addEventListener('mousemove', (e) => {
@@ -98,7 +100,7 @@ const run=(time: number)=>{
     });
     ninja.update(time);
     ninja.draw();
-
+    zmb.draw();
 
     /*
     if(ninja.collide(ctx,m.x,m.y)){

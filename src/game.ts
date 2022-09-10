@@ -16,8 +16,9 @@ export const Game = {
     init:()=>{
         Game.ps=[new Plat(2,1,1),
             new Plat(0, 0, 2),
-            new Plat(3, 0, 2),
-            new Plat(5,1,1),]
+            new Plat(4, 0, 2),
+            new Plat(4, 2, 2),
+            new Plat(6,1,1),]
 
     },
     ps: [] as Array<Plat>
