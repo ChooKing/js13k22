@@ -1,4 +1,5 @@
 import {Plat} from "./plat";
+import {Zombie} from "./zombie";
 
 export const Game = {
     ctx: undefined as CanvasRenderingContext2D|undefined,
@@ -21,5 +22,6 @@ export const Game = {
             new Plat(6,1,1),]
 
     },
-    ps: [] as Array<Plat>
+    ps: [] as Array<Plat>,
+    zs: [] as Array<Zombie>
 }

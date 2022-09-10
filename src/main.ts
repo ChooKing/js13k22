@@ -15,7 +15,7 @@ let m:Point={x:0,y:0};
 let mColor="rgb(255,255,255)";
 const viruses=[m];
 const ninja = new Ninja(0,0, viruses);//y425
-const zmb = new Zombie(0,0, []);
+//const zmb = new Zombie(0,0, []);
 
 tex.init();
 document.addEventListener('mousemove', (e) => {
@@ -80,6 +80,10 @@ k.addUpHandler("ArrowDown",()=>{
 
 });
 //bg.init();
+Game.ps.forEach(p=>{
+    Game.zs.push(new Zombie(p.xy.x, p.xy.y-314,[]));
+
+});
 const run=(time: number)=>{
     ctx.clearRect(0, 0, Game.cw, Game.ch);
 
@@ -98,9 +102,14 @@ const run=(time: number)=>{
         p.draw();
 
     });
+    Game.zs.forEach(z=>{
+        z.update(time);
+        z.draw();
+
+    });
     ninja.update(time);
     ninja.draw();
-    zmb.draw();
+
 
     /*
     if(ninja.collide(ctx,m.x,m.y)){
