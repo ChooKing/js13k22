@@ -168,7 +168,7 @@ export class Zombie extends Drawable{
         const ctx=Game.ctx!;
         ctx.save();
         if(this.f){
-            ctx.setTransform(-1,0,0,1,this.w+(this.vx*2),this.vy);
+            ctx.setTransform(-1,0,0,1,this.w+(this.vx),this.vy);
         }
         else ctx.translate(this.vx, this.vy);
 

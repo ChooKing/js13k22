@@ -9,7 +9,7 @@ export const Game = {
     wh:9000, //world height
     cx:0, //cameraX
     cy:0, //cameraY
-    th: 225, //tile height
+    th: 240, //tile height
     tw: 350, //tile width
     tyo: 65, //tile Y offset
     ns: 1200, //speed

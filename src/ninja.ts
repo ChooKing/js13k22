@@ -156,7 +156,7 @@ export class Ninja extends Drawable{
         const ctx=Game.ctx!;
         ctx.save();
         if(this.f){
-            ctx.setTransform(-1,0,0,1,this.w+(this.vx*2),this.vy+this.yo);
+            ctx.setTransform(-1,0,0,1,this.w+(this.vx),this.vy+this.yo);
         }
         else ctx.translate(this.vx, this.vy+this.yo);
 
@@ -241,7 +241,7 @@ export class Ninja extends Drawable{
                 }
 
             }
-            if(this.s>0 && this.jmp!=1){
+            if(this.s!=0 && this.jmp!=1){
                 if(this.wp===0) this.wp=1;
                 if(this.wp===1){
                     if(this.angs.tl<mr.tl){
@@ -268,6 +268,7 @@ export class Ninja extends Drawable{
                 }
 
             }
+
             if(this.jmp==-1 && this.cr>mcr){
                 this.cr-=crs*dt;
                 this.yo+=440*dt;

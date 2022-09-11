@@ -34,12 +34,14 @@ k.addDownHandler(" ",()=>{
 });
 k.addDownHandler("ArrowRight",()=>{
     if(!Game.ls){
-        ninja.s=Game.ns;
+        if(ninja.f) ninja.f=false;
+        else ninja.s=Game.ns;
     }
 });
 k.addDownHandler("ArrowLeft",()=>{
     if(!Game.ls){
-        ninja.s=-Game.ns;
+        if(!ninja.f) ninja.f=true;
+        else ninja.s=-Game.ns;
     }
 });
 k.addDownHandler("ArrowDown",()=>{
@@ -81,7 +83,9 @@ k.addUpHandler("ArrowDown",()=>{
 });
 //bg.init();
 Game.ps.forEach(p=>{
-    Game.zs.push(new Zombie(p.xy.x, p.xy.y-314,[]));
+    const z = new Zombie(p.xy.x, p.xy.y-314,[]);
+    if(Math.random()>0.5) z.f=true;
+    Game.zs.push(z);
 
 });
 const run=(time: number)=>{
@@ -111,13 +115,6 @@ const run=(time: number)=>{
     ninja.draw();
 
 
-    /*
-    if(ninja.collide(ctx,m.x,m.y)){
-        ctx.fillStyle="rgb(255,0,0)";
-    }
-    else ctx.fillStyle="rgb(255,255,255)";
-
-     */
 
     ctx.fillStyle=mColor;
     ctx.beginPath();
