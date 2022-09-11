@@ -337,10 +337,15 @@ export class Ninja extends Drawable{
             if(this.angs.ca!=0){
                 Game.zs.forEach(z=>{
                     if(z.die==0 && icb(z)){
-                        Game.score+=1;
-                        if(this.xy.x<z.xy.x) z.die=1;
-                        else z.die=-1;
-                        stat.update();
+                        setTimeout(()=>{
+                            if(z.die==0){
+                                Game.score+=1;
+                                if(this.xy.x<z.xy.x) z.die=1;
+                                else z.die=-1;
+                                stat.update();
+                            }
+                        },200)
+
                     }
                 })
             }
