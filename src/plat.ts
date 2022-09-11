@@ -44,7 +44,7 @@ export class Plat extends Drawable{
         ctx.drawImage(tex.fc!,this.xy.x-Game.cx,this.xy.y-Game.cy);
         ctx.restore();
 
-
+        /*
         ctx.save();
 
 
@@ -57,6 +57,8 @@ export class Plat extends Drawable{
         ctx.restore();
 
 
+         */
+        ctx.drawImage(tex.fc!,this.vx,this.vy+60,this.w,17);
 
 
     }

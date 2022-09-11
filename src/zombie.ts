@@ -206,34 +206,7 @@ export class Zombie extends Drawable{
         ctx.restore();
 
 
-        /*
-        this.dp(this.core);
 
-
-        this.dp(this.armR);
-        ctx.restore();
-        ctx.restore();
-        ctr(66,298,this.angs.tl);//0.75
-        this.dp(this.thighL);
-        ctr(129,358,this.angs.sl);//0.5
-        this.dp(this.shinL);
-        ctr(152,423,this.angs.fl);
-        this.dp(this.footL);
-        ctx.restore();
-        ctx.restore();
-        ctx.restore();
-        ctr(66,298,this.angs.tr);//-0.8
-        this.dp(this.thighR);
-        ctr(58,365,this.angs.sr);//-0.3
-        this.dp(this.shinR);
-        ctr(12,431,this.angs.fr);//0.75
-        this.dp(this.footR);
-        ctx.restore();
-        ctx.restore();
-        ctx.restore();
-        ctx.restore();
-
-         */
 
     }
     setCollider(c:()=>void){
@@ -244,7 +217,7 @@ export class Zombie extends Drawable{
         const dt = (t-this.lt)/1000;
         if(this.die!=0){
             if(this.angs.da<1.2 && this.angs.da>-1.2){
-                this.angs.da+=2*dt*this.die*(this.f?-1:1);
+                this.angs.da+=3*dt*this.die*(this.f?-1:1);
             }
             else {
                 rz(this);

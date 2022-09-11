@@ -20,11 +20,6 @@ export const tex={
         tex.fc.width=Game.cw;
         tex.fc.height=Game.ch;
         tex.fctx = tex.fc.getContext("2d");
-        const fctx=tex.fctx!;
-        fctx.filter="url(#plat)";
-        fctx.fillRect(0,0,Game.cw,Game.ch);
-        tex.floor = Game.ctx!.createPattern(tex.fc,null);
-
         const id = Game.ctx!.createImageData(Game.cw,Game.ch);
         const buf = new Uint32Array(id.data.buffer);
         for(let i=0;i<buf.length;i++){
@@ -34,22 +29,3 @@ export const tex={
     }
 }
 
-
-//iData:null as ImageData|null,
-//buf: null as Uint32Array|null,
-//p: null as CanvasPattern|null,
-/*
-init:()=>{
-    bg.iData = Game.ctx!.createImageData(Game.cw, Game.ch);
-    bg.buf = new Uint32Array(bg.iData.data.buffer);
-
-    for (let i=0;i<bg.buf.length;i++){
-        bg.buf[i]=Math.tan(i)>0.5? 0xff000000: 0xff444400;
-    }
-    createImageBitmap(bg.iData).then((b)=>{
-        bg.p = Game.ctx!.createPattern(b,null);
-    });
-
-},
-
- */
