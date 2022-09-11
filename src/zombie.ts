@@ -1,5 +1,5 @@
 import {Drawable} from "./drawable";
-import {Game} from "./game";
+import {Game,rz} from "./game";
 import {Paths, PathDef} from "./Paths";
 import {Point, mp} from "./types";
 import {Plat} from "./plat";
@@ -75,6 +75,7 @@ interface angs{
     tr: number
     sr: number;
     fr: number;
+    da: number; //death angle
 }
 const ctr=(x: number, y:number, a:number)=>{
     const c=Game.ctx!;
@@ -91,6 +92,7 @@ const rsc=()=>{//random skin color
     return {r:Math.floor(f*192)+20,g:Math.floor(f*181)+20,b:Math.floor(f*124)+20};
 }
 export class Zombie extends Drawable{
+    die:number;
     w:number;
     h:number;
     s: number; //speed
@@ -114,11 +116,13 @@ export class Zombie extends Drawable{
     angs: angs;
 
 
+
     pl: Plat|null;
 
     onCollide?: ()=>void;
     constructor(x: number, y: number, col: Point[]) {
         super(x, y);
+        this.die=0;
         this.w=194;
         this.h=350;
         this.xy={x:x, y:y};
@@ -127,7 +131,7 @@ export class Zombie extends Drawable{
         this.wp=0;
         this.lt = 0;
         this.s=0;
-        this.angs={al:0, ar: -0.2, tl:-1.1,sl:0.5,fl:0.5,tr:0,sr:0,fr:0};
+        this.angs={al:0, ar: -0.2, tl:-1.1,sl:0.5,fl:0.5,tr:0,sr:0,fr:0,da:0};
         this.pl=null;
         const tc=randc(225);
         const bc=randc(225);
@@ -171,7 +175,7 @@ export class Zombie extends Drawable{
             ctx.setTransform(-1,0,0,1,this.w+(this.vx),this.vy);
         }
         else ctx.translate(this.vx, this.vy);
-
+        ctr(112,350,this.angs.da);
         ctr(133,93,this.angs.ar);
         this.dp(this.armR);
         ctx.restore();
@@ -198,12 +202,8 @@ export class Zombie extends Drawable{
         ctr(133,93,this.angs.al);
         this.dp(this.armL);
         ctx.restore();
-
-
-
-
         ctx.restore();
-
+        ctx.restore();
 
 
         /*
@@ -242,6 +242,14 @@ export class Zombie extends Drawable{
     update(t: number){
 
         const dt = (t-this.lt)/1000;
+        if(this.die!=0){
+            if(this.angs.da<1.2 && this.angs.da>-1.2){
+                this.angs.da+=2*dt*this.die*(this.f?-1:1);
+            }
+            else {
+                rz(this);
+            }
+        }
 
 
 

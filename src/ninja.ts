@@ -3,6 +3,7 @@ import {Game} from "./game";
 import {Paths} from "./Paths";
 import {Point, mp} from "./types";
 import {Plat} from "./plat";
+import {Zombie} from "./zombie";
 
 const c=[
     {r:1,g:1,b:0},
@@ -43,6 +44,7 @@ const ctr=(x: number, y:number, a:number)=>{
 }
 const mcr=-0.35;
 const crs=6; //crouch speed
+
 export class Ninja extends Drawable{
     w:number;
     h:number;
@@ -192,6 +194,11 @@ export class Ninja extends Drawable{
         ctx.restore();
         ctx.restore();
         ctx.restore();
+
+
+
+
+
 /*
         ctx.save();
         ctx.strokeStyle="rgb(255,0,0)";
@@ -208,7 +215,7 @@ export class Ninja extends Drawable{
         const st = this.pl!=null;
         const dt = (t-this.lt)/1000;
         const ff=(this.ij-this.g)*dt;//fall factor
-        if(this.xy.y+this.yo>Game.ch+this.h){
+        if(this.xy.y+this.yo>Game.wh+this.h){
             console.log("died")
         }
         else{
@@ -241,6 +248,11 @@ export class Ninja extends Drawable{
                 }
 
             }
+
+            if(this.xy.y>Game.ch/2 && this.xy.y<Game.wh-(Game.ch/2)){
+                Game.cy = this.xy.y-(Game.ch/2);
+            }
+
             if(this.s!=0 && this.jmp!=1){
                 if(this.wp===0) this.wp=1;
                 if(this.wp===1){
@@ -303,6 +315,31 @@ export class Ninja extends Drawable{
                     this.jmp=0;
                 },200);
 
+            }
+            let cbx:number;
+            let cby:number;
+            if(this.f){
+                cbx=this.xy.x-54;
+                cby=this.xy.y;
+
+            }
+            else {
+                cbx=this.xy.x+54;
+                cby=this.xy.y;
+            }
+
+            const icb = (z:Zombie)=>{//inside cut box
+                const inx =  (z.xy.x>=cbx && z.xy.x<=cbx+250)||(z.xy.x+z.w>=cbx && z.xy.x+z.w<=cbx+250);
+                if(!inx) return false;
+                return (z.xy.y>=cby && z.xy.y<=cby+250)||(z.xy.y+z.h>=cby && z.xy.y+z.h<=cby+250);
+            }
+            if(this.angs.ca!=0){
+                Game.zs.forEach(z=>{
+                    if(icb(z)){
+                        if(this.xy.x<z.xy.x) z.die=1;
+                        else z.die=-1;
+                    }
+                })
             }
 
             /*

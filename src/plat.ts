@@ -11,7 +11,7 @@ export class Plat extends Drawable{
     h:number;
     p: Paths;
     constructor(x:number, y:number, l:number) {
-        super(Game.tw*x,Game.ch-(Game.th*y+Game.tyo));
+        super(Game.tw*x,Game.th*y);
         this.h=60;
         this.w=Game.tw*l;
         this.p=new Paths([

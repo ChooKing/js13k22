@@ -15,13 +15,19 @@ export const Game = {
     ns: 1200, //speed
     ls: false, //like side movement
     init:()=>{
-        Game.ps=[new Plat(2,1,1),
-            new Plat(0, 0, 2),
-            new Plat(4, 0, 2),
-            new Plat(4, 2, 2),
-            new Plat(6,1,1),]
+        Game.ps=[
+            new Plat(0, 8, 1),
+            new Plat(1,7,2),
+            new Plat(3, 5, 2),
+            new Plat(3, 2, 2),
+            new Plat(5, 4, 1),
+            new Plat(6,3,1)
+        ]
 
     },
     ps: [] as Array<Plat>,
     zs: [] as Array<Zombie>
+}
+export const rz=(z:Zombie)=>{
+    Game.zs=Game.zs.filter(i=>i!=z)
 }

@@ -1,4 +1,5 @@
 import {RGB} from "./types";
+import {Drawable} from "./drawable";
 export const rgb2str=(rgb: RGB)=>{
     return `rgb(${rgb.r},${rgb.g},${rgb.b})`;
 }
