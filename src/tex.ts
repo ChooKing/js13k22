@@ -4,17 +4,17 @@ export const tex={
     fc: null as HTMLCanvasElement|null, //floor canvas
     rctx: null as CanvasRenderingContext2D|null,
     fctx: null as CanvasRenderingContext2D|null,
-    rock: null as CanvasPattern|null,
+    //rock: null as CanvasPattern|null,
     floor: null as CanvasPattern|null,
     init:()=>{
         tex.rc = document.createElement("canvas");
-        tex.rc.width=Game.cw*2;
-        tex.rc.height=Game.ch*2;
+        tex.rc.width=Game.cw;
+        tex.rc.height=Game.ch;
         tex.rctx = tex.rc.getContext("2d");
         const ctx=tex.rctx!;
         ctx.filter="url(#rock)";
-        ctx.fillRect(0,0,Game.cw*2,Game.ch*2);
-        tex.rock = Game.ctx!.createPattern(tex.rc,null);
+        ctx.fillRect(0,0,Game.cw,Game.ch);
+        //tex.rock = Game.ctx!.createPattern(tex.rc,null);
 
         tex.fc = document.createElement("canvas");
         tex.fc.width=Game.cw;
