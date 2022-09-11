@@ -5,6 +5,7 @@ import {Keyboard} from "./keyboard";
 import {tex} from "./tex";
 import {bg} from "./bg";
 import {Zombie} from "./zombie";
+import {stat} from "./stat";
 const canvas = document.getElementById("canvas")! as HTMLCanvasElement;
 canvas.width=1600;
 canvas.height=900;
@@ -24,7 +25,8 @@ document.addEventListener('mousemove', (e) => {
 });
 document.addEventListener('click',(e)=>{
     console.log(e.x-(window.innerWidth-Game.cw)/2,e.y);
-})
+});
+stat.init();
 ninja.setCollider(()=>{
    mColor="rgb(255,0,0)";
 });

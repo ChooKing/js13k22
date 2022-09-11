@@ -2,6 +2,7 @@ import {Plat} from "./plat";
 import {Zombie} from "./zombie";
 
 export const Game = {
+    score: 0,
     ctx: undefined as CanvasRenderingContext2D|undefined,
     cw: 1600, //canvas width
     ch: 900, //canvas height

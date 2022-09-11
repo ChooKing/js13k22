@@ -4,6 +4,7 @@ import {Paths} from "./Paths";
 import {Point, mp} from "./types";
 import {Plat} from "./plat";
 import {Zombie} from "./zombie";
+import {stat} from "./stat";
 
 const c=[
     {r:1,g:1,b:0},
@@ -335,9 +336,11 @@ export class Ninja extends Drawable{
             }
             if(this.angs.ca!=0){
                 Game.zs.forEach(z=>{
-                    if(icb(z)){
+                    if(z.die==0 && icb(z)){
+                        Game.score+=1;
                         if(this.xy.x<z.xy.x) z.die=1;
                         else z.die=-1;
+                        stat.update();
                     }
                 })
             }
