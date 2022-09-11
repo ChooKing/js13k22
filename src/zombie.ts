@@ -5,6 +5,7 @@ import {Point, mp} from "./types";
 import {Plat} from "./plat";
 import {RGB} from "./types";
 import {dark} from "./util";
+import {Fungus} from "./fungus";
 
 const c=[
     {r:78,g:78,b:78},
@@ -98,7 +99,7 @@ export class Zombie extends Drawable{
     s: number; //speed
     f: boolean;
     lt: number;//last update time
-
+    lf:number;//last fungus spawn
 
     armL:Paths;
     armR: Paths;
@@ -130,6 +131,7 @@ export class Zombie extends Drawable{
         this.f = false;
         this.wp=0;
         this.lt = 0;
+        this.lf=0;
         this.s=0;
         this.angs={al:0, ar: -0.2, tl:-1.1,sl:0.5,fl:0.5,tr:0,sr:0,fr:0,da:0};
         this.pl=null;
@@ -213,7 +215,7 @@ export class Zombie extends Drawable{
         this.onCollide=c;
     }
     update(t: number){
-
+        if(this.lt===0) this.lt=t;
         const dt = (t-this.lt)/1000;
         if(this.die!=0){
             if(this.angs.da<1.2 && this.angs.da>-1.2){
@@ -223,20 +225,44 @@ export class Zombie extends Drawable{
                 rz(this);
             }
         }
+        else{
+            if(t-this.lf>3000){
+                let s=Math.random()*400;
+                if(this.f){
+                    Game.fs.push(new Fungus(this.xy.x+95, this.xy.y+42,s));
+                }
+                else{
+                    Game.fs.push(new Fungus(this.xy.x+99, this.xy.y+42,-s));
+                }
 
-
-
-        //const rv=Game.ns/125; //rotations per second for everything other than cutting
-        if(this.lt===0) this.lt=t;
-
-
-        if((this.s>0 && this.xy.x+this.w<Game.ww)||(this.s<0 && this.xy.x>0)){
-            this.xy.x+= this.s*dt;
-            if(this.xy.x>Game.cw/2 && this.xy.x<Game.ww-(Game.cw/2)){
-                Game.cx = this.xy.x-(Game.cw/2);
+                this.lf=t;
             }
 
+
+
+
+
+
+            /*
+            if((this.s>0 && this.xy.x+this.w<Game.ww)||(this.s<0 && this.xy.x>0)){
+                this.xy.x+= this.s*dt;
+                if(this.xy.x>Game.cw/2 && this.xy.x<Game.ww-(Game.cw/2)){
+                    Game.cx = this.xy.x-(Game.cw/2);
+                }
+
+            }
+
+             */
+
         }
+
+
+
+
+
+
+
+
 
 
 

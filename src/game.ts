@@ -1,5 +1,6 @@
 import {Plat} from "./plat";
 import {Zombie} from "./zombie";
+import {Fungus} from "./fungus";
 
 export const Game = {
     score: 0,
@@ -27,8 +28,12 @@ export const Game = {
 
     },
     ps: [] as Array<Plat>,
-    zs: [] as Array<Zombie>
+    zs: [] as Array<Zombie>,
+    fs: [] as Array<Fungus>
 }
 export const rz=(z:Zombie)=>{
     Game.zs=Game.zs.filter(i=>i!=z)
+}
+export const rf=(f:Fungus)=>{
+    Game.fs=Game.fs.filter(i=>i!=f)
 }

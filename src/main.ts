@@ -83,7 +83,7 @@ k.addUpHandler("ArrowDown",()=>{
     }
 
 });
-//bg.init();
+
 Game.ps.forEach(p=>{
     const z = new Zombie(p.xy.x+250, p.xy.y-314,[]);
     if(Math.random()>0.5) z.f=true;
@@ -92,30 +92,20 @@ Game.ps.forEach(p=>{
 });
 const run=(time: number)=>{
     ctx.clearRect(0, 0, Game.cw, Game.ch);
-
-    /*
-    this.drawables.forEach((s)=>{
-        s.update?.(time);
-        s.draw(this.ctx);
-    });
-
-     */
     bg.draw();
-
-
     Game.ps.forEach(p=>{
-        //p.update(time);
         p.draw();
-
+    });
+    ninja.update(time);
+    ninja.draw();
+    Game.fs.forEach(f=>{
+        f.update(time);
+        f.draw();
     });
     Game.zs.forEach(z=>{
         z.update(time);
         z.draw();
-
     });
-    ninja.update(time);
-    ninja.draw();
-
 
 
     ctx.fillStyle=mColor;
