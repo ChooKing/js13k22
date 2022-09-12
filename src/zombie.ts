@@ -4,7 +4,7 @@ import {Paths, PathDef} from "./Paths";
 import {mp} from "./types";
 import {Plat} from "./plat";
 import {RGB} from "./types";
-import {dark} from "./util";
+import {dark, vis} from "./util";
 import {Fungus} from "./fungus";
 
 const c=[
@@ -173,41 +173,43 @@ export class Zombie extends Drawable{
         return this.xy.y-Game.cy;
     }
     draw() {
-        const ctx=Game.ctx!;
-        ctx.save();
-        if(this.f){
-            ctx.setTransform(-1,0,0,1,this.w+(this.vx),this.vy);
+        if(vis(this)){
+            const ctx=Game.ctx!;
+            ctx.save();
+            if(this.f){
+                ctx.setTransform(-1,0,0,1,this.w+(this.vx),this.vy);
+            }
+            else ctx.translate(this.vx, this.vy);
+            ctr(112,350,this.angs.da);
+            ctr(133,93,this.angs.ar);
+            this.dp(this.armR);
+            ctx.restore();
+            ctr(114,184,this.angs.tr-0.4)
+            this.dp(this.thighR);
+            ctr(77,252,this.angs.sr);
+            this.dp(this.shinR);
+            ctr(65,326,this.angs.fr);
+            this.dp(this.footR);
+            ctx.restore();
+            ctx.restore();
+            ctx.restore();
+            ctr(114,184,this.angs.tl-0.4)
+            this.dp(this.thighL);
+            ctr(77,252,this.angs.sl);
+            this.dp(this.shinL);
+            ctr(65,326,this.angs.fl);
+            this.dp(this.footL);
+            ctx.restore();
+            ctx.restore();
+            ctx.restore();
+            this.dp(this.head);
+            this.dp(this.core);
+            ctr(133,93,this.angs.al);
+            this.dp(this.armL);
+            ctx.restore();
+            ctx.restore();
+            ctx.restore();
         }
-        else ctx.translate(this.vx, this.vy);
-        ctr(112,350,this.angs.da);
-        ctr(133,93,this.angs.ar);
-        this.dp(this.armR);
-        ctx.restore();
-        ctr(114,184,this.angs.tr-0.4)
-        this.dp(this.thighR);
-        ctr(77,252,this.angs.sr);
-        this.dp(this.shinR);
-        ctr(65,326,this.angs.fr);
-        this.dp(this.footR);
-        ctx.restore();
-        ctx.restore();
-        ctx.restore();
-        ctr(114,184,this.angs.tl-0.4)
-        this.dp(this.thighL);
-        ctr(77,252,this.angs.sl);
-        this.dp(this.shinL);
-        ctr(65,326,this.angs.fl);
-        this.dp(this.footL);
-        ctx.restore();
-        ctx.restore();
-        ctx.restore();
-        this.dp(this.head);
-        this.dp(this.core);
-        ctr(133,93,this.angs.al);
-        this.dp(this.armL);
-        ctx.restore();
-        ctx.restore();
-        ctx.restore();
 
 
 
