@@ -253,7 +253,7 @@ export class Ninja extends Drawable{
             }
 
             if(this.xy.y>Game.ch/2 && this.xy.y<Game.wh-(Game.ch/2)){
-                Game.cy = this.xy.y-(Game.ch/2);
+                Game.cy = this.xy.y-(Game.ch/2)+this.h/2;
             }
 
             if(this.s!=0 && this.jmp!=1){
@@ -322,7 +322,7 @@ export class Ninja extends Drawable{
             let cbx:number;
             let cby:number;
             if(this.f){
-                cbx=this.xy.x-54;
+                cbx=this.xy.x-114;
                 cby=this.xy.y;
 
             }
@@ -338,17 +338,20 @@ export class Ninja extends Drawable{
             }
             if(this.angs.ca!=0){
                 Game.zs.forEach(z=>{
-                    if(z.die==0 && icb(z)){
-                        setTimeout(()=>{
-                            if(z.die==0){
-                                Game.score+=1;
-                                if(this.xy.x<z.xy.x) z.die=1;
-                                else z.die=-1;
-                                stat.update();
-                            }
-                        },200)
+                    if((this.f && this.xy.x>z.xy.x)||(!this.f &&this.xy.x<z.xy.x)){
+                        if(z.die==0 && icb(z)){
+                            setTimeout(()=>{
+                                if(z.die==0){
+                                    Game.score+=1;
+                                    if(this.xy.x<z.xy.x) z.die=1;
+                                    else z.die=-1;
+                                    stat.update();
+                                }
+                            },200)
 
+                        }
                     }
+
                 })
             }
 

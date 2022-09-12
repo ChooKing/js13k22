@@ -22,10 +22,10 @@ const c=[
 const mr={ //maximum rotations
     ar:0.05,
     al:0.05,
-    tr:0.25,
-    tl:0.25,
-    sl:0.3,
-    sr:0.3,
+    tr:0.15,
+    tl:0.15,
+    sl:0.2,
+    sr:0.2,
     foot:-0.2
 }
 const ps = {//paths
