@@ -16,7 +16,7 @@ export class Fungus extends Drawable{
         if(vis(this)){
             const ctx=Game.ctx!;
             ctx.save();
-            ctx.fillStyle="rgb(30,86,40)";
+            ctx.fillStyle="rgb(200,86,40)";
             ctx.beginPath();
             ctx.arc(this.xy.x-Game.cx,this.xy.y-Game.cy,5,0,6.28);
             ctx.fill();
@@ -28,7 +28,7 @@ export class Fungus extends Drawable{
     update(t: number) {
         if(this.lt===0||t-this.lt>120) this.lt=t;
         const dt = (t-this.lt)/1000;
-        this.g*=1.05;
+        this.g*=1.01;
         this.xy.y+=this.g*dt;
         this.xy.x+=this.sx*dt;
         if(this.xy.y>Game.wh) rf(this);
