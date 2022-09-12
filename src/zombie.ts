@@ -19,7 +19,15 @@ const c=[
     {r:188,g:178,b:176},
     {r:194,g:167,b:161}
 ];
-
+const mr={ //maximum rotations
+    ar:0.05,
+    al:0.05,
+    tr:0.25,
+    tl:0.25,
+    sl:0.3,
+    sr:0.3,
+    foot:-0.2
+}
 const ps = {//paths
     arm:(tc: RGB, sc: RGB):PathDef[]=>{//tc=top color, sc=skin color
         return [
@@ -129,11 +137,11 @@ export class Zombie extends Drawable{
         this.xy={x:x, y:y};
         //this.cols=col;
         this.f = false;
-        this.wp=0;
+        this.wp=1;
         this.lt = 0;
         this.lf=0;
         this.s=Game.zsp;
-        this.angs={al:0, ar: -0.2, tl:-1.1,sl:0.5,fl:0.5,tr:0,sr:0,fr:0,da:0};
+        this.angs={al:0, ar: -0.2, tl:0,sl:0,fl:0,tr:0,sr:0,fr:0,da:0};
         this.pl=p;
         const tc=randc(225);
         const bc=randc(225);
@@ -175,18 +183,18 @@ export class Zombie extends Drawable{
         ctr(133,93,this.angs.ar);
         this.dp(this.armR);
         ctx.restore();
-        ctr(114,184,this.angs.tr)
+        ctr(114,184,this.angs.tr-0.4)
         this.dp(this.thighR);
         ctr(77,252,this.angs.sr);
         this.dp(this.shinR);
-        ctr(183,320,this.angs.fr);
+        ctr(65,326,this.angs.fr);
         this.dp(this.footR);
         ctx.restore();
         ctx.restore();
         ctx.restore();
-        ctr(114,184,this.angs.tl)
+        ctr(114,184,this.angs.tl-0.4)
         this.dp(this.thighL);
-        ctr(87,252,this.angs.sl);
+        ctr(77,252,this.angs.sl);
         this.dp(this.shinL);
         ctr(65,326,this.angs.fl);
         this.dp(this.footL);
@@ -229,24 +237,57 @@ export class Zombie extends Drawable{
 
                 this.lf=t;
             }
-
-
-
-
-
-
-
             if((this.s>0 && this.xy.x+this.w<this.pl.xy.x+this.pl.w)||(this.s<0 && this.xy.x>this.pl.xy.x)){
-                this.xy.x+= this.s*dt;
-
-
+                this.xy.x+= this.s*dt*Math.random();
             }
             else{
                 this.f=!this.f;
                 this.s=-this.s;
-
             }
+            const rv=Game.ns/325; //rotations per second for everything other than cutting
+            if(this.wp===1){
+                if(this.angs.tl<mr.tl){
+                    this.angs.al+=rv*dt*mr.al;
+                    this.angs.ar-=rv*dt*mr.ar;
+                    this.angs.tl+=rv*dt*mr.tl;
+                    this.angs.tr-=rv*dt*mr.tr;
+                    this.angs.sl-=rv*dt*mr.sl;
+                    this.angs.sr-=rv*dt*mr.sr;
+                    this.angs.fl+=rv*dt*mr.foot;
+                    this.angs.fr+=rv*dt*mr.foot;
+                    /*
+                    this.angs.tr+=rv*dt*mr.tr;
+                    this.angs.sl+=rv*dt*mr.sl;
+                    this.angs.fl+=rv*dt*mr.fl;
+                    this.angs.sr+=rv*dt*mr.sr;
+                    this.angs.fr+=rv*dt*mr.fr;
 
+                     */
+
+                }
+                else this.wp=2;
+            }
+            if(this.wp===2){
+                if(this.angs.tl>-mr.tl){
+                    this.angs.al-=rv*dt*mr.al;
+                    this.angs.ar+=rv*dt*mr.ar;
+                    this.angs.tl-=rv*dt*mr.tl;
+                    this.angs.tr+=rv*dt*mr.tr;
+                    this.angs.sl+=rv*dt*mr.sl;
+                    this.angs.sr+=rv*dt*mr.sr;
+                    this.angs.fl-=rv*dt*mr.foot;
+                    this.angs.fr-=rv*dt*mr.foot;
+                    /*
+                    this.angs.tr-=rv*dt*mr.tr;
+                    this.angs.sl-=rv*dt*mr.sl;
+                    this.angs.fl-=rv*dt*mr.fl;
+                    this.angs.sr-=rv*dt*mr.sr;
+                    this.angs.fr-=rv*dt*mr.fr;
+
+                     */
+                }
+                else this.wp=1;
+            }
 
 
         }
