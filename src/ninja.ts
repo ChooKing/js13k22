@@ -5,6 +5,7 @@ import {mp} from "./types";
 import {Plat} from "./plat";
 import {Zombie} from "./zombie";
 import {stat} from "./stat";
+import {Fungus} from "./fungus";
 //import {Fungus} from "./fungus";
 
 const c=[
@@ -140,17 +141,20 @@ export class Ninja extends Drawable{
 
     }
     checkCol(p:Paths){
+        let fk:Fungus|null=null;
         Game.fs.forEach((co)=>{
-            //console.log(co.xy.x,co.xy.y)
             p.paths.forEach((i)=>{
                 if((this.collide(Game.ctx!,i[0],co.xy.x-Game.cx,co.xy.y-Game.cy))){
-                    rf(co);
-                    Game.hp--;
-                    stat.update();
-                    console.log(Game.fs)
+                    fk=co;
                 }
             })
-        })
+        });
+        if(fk){
+            rf(fk);
+            Game.hp--;
+            stat.update();
+            console.log(Game.fs)
+        }
     }
     dp(p:Paths){//draw part
         p.draw();
