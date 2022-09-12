@@ -1,7 +1,7 @@
 import {Drawable} from "./drawable";
 import {Game,rz} from "./game";
 import {Paths, PathDef} from "./Paths";
-import {Point, mp} from "./types";
+import {mp} from "./types";
 import {Plat} from "./plat";
 import {RGB} from "./types";
 import {dark} from "./util";
@@ -112,7 +112,7 @@ export class Zombie extends Drawable{
     footR: Paths;
     footL: Paths;
 
-    cols: Point[];
+    //cols: Point[];
     wp:mp;//walk phase
     angs: angs;
 
@@ -121,13 +121,13 @@ export class Zombie extends Drawable{
     pl: Plat|null;
 
     onCollide?: ()=>void;
-    constructor(x: number, y: number, col: Point[]) {
+    constructor(x: number, y: number) {
         super(x, y);
         this.die=0;
         this.w=194;
         this.h=350;
         this.xy={x:x, y:y};
-        this.cols=col;
+        //this.cols=col;
         this.f = false;
         this.wp=0;
         this.lt = 0;
@@ -153,13 +153,7 @@ export class Zombie extends Drawable{
 
 
     }
-    checkCol(p:Paths){
-        this.cols.forEach((co)=>{
-            p.paths.forEach((i)=>{
-                if((this.onCollide)&&(this.collide(Game.ctx!,i[0],co.x,co.y))) this.onCollide();
-            })
-        })
-    }
+
     dp(p:Paths){//draw part
         p.draw();
         //this.checkCol(p);
@@ -211,9 +205,7 @@ export class Zombie extends Drawable{
 
 
     }
-    setCollider(c:()=>void){
-        this.onCollide=c;
-    }
+
     update(t: number){
         if(this.lt===0) this.lt=t;
         const dt = (t-this.lt)/1000;

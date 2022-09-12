@@ -27,9 +27,11 @@ document.addEventListener('mousemove', (e) => {
 });
 
  */
+/*
 document.addEventListener('click',(e)=>{
     console.log(e.x-(window.innerWidth-Game.cw)/2,e.y);
 });
+ */
 stat.init();
 ninja.setCollider(()=>{
    console.log("hit")
@@ -91,7 +93,7 @@ k.addUpHandler("ArrowDown",()=>{
 });
 
 Game.ps.forEach(p=>{
-    const z = new Zombie(p.xy.x+250, p.xy.y-314,[]);
+    const z = new Zombie(p.xy.x+250, p.xy.y-314);
     if(Math.random()>0.5) z.f=true;
     Game.zs.push(z);
 });

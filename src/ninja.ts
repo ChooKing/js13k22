@@ -153,7 +153,6 @@ export class Ninja extends Drawable{
             rf(fk);
             Game.hp--;
             stat.update();
-            console.log(Game.fs)
         }
     }
     dp(p:Paths){//draw part
@@ -208,17 +207,6 @@ export class Ninja extends Drawable{
         ctx.restore();
 
 
-
-
-
-/*
-        ctx.save();
-        ctx.strokeStyle="rgb(255,0,0)";
-        ctx.strokeRect(this.xy.x,this.xy.y+this.yo,this.w,this.h);
-        ctx.restore();
-
-
- */
     }
     setCollider(c:()=>void){
         this.onCollide=c;
