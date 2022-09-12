@@ -30,7 +30,7 @@ interface angs{
     fr: number;
 }
 const mr:angs={ //maximum rotations
-    ca:1.1, //cutting angle
+    ca:1.4, //cutting angle
     tl:0.75, //thigh left
     sl:0.5, //shin left
     fl:-1.2,//foot left
@@ -45,7 +45,7 @@ const ctr=(x: number, y:number, a:number)=>{
     c.rotate(a);
     c.translate(-x,-y);
 }
-const mcr=-0.35;
+const mcr=-0.45;
 const crs=6; //crouch speed
 
 export class Ninja extends Drawable{
@@ -207,6 +207,24 @@ export class Ninja extends Drawable{
         ctx.restore();
 
 
+/*
+        let cbx:number;
+        let cby:number;
+        if(this.f){
+            cbx=this.xy.x-(this.cr<0?140: 114);
+            cby=this.xy.y+(this.cr<0?35: 0);
+
+        }
+        else {
+            cbx=this.xy.x+(this.cr<0?104: 54);
+            cby=this.xy.y+(this.cr<0?35: 0);
+        }
+        ctx.save()
+        ctx.strokeStyle="rgb(255,0,0)"
+        ctx.strokeRect(cbx-Game.cx,cby-Game.cy,this.cr<0?225:250,this.cr<0?315:285)
+        ctx.restore()
+
+ */
     }
     setCollider(c:()=>void){
         this.onCollide=c;
@@ -322,19 +340,21 @@ export class Ninja extends Drawable{
             let cbx:number;
             let cby:number;
             if(this.f){
-                cbx=this.xy.x-114;
-                cby=this.xy.y;
+                cbx=this.xy.x-(this.cr<0?140: 114);
+                cby=this.xy.y+(this.cr<0?35: 0);
 
             }
             else {
-                cbx=this.xy.x+54;
-                cby=this.xy.y;
+                cbx=this.xy.x+(this.cr<0?104: 54);
+                cby=this.xy.y+(this.cr<0?35: 0);
             }
 
             const icb = (z:Zombie)=>{//inside cut box
-                const inx =  (z.xy.x>=cbx && z.xy.x<=cbx+250)||(z.xy.x+z.w>=cbx && z.xy.x+z.w<=cbx+250);
+                const w= this.cr<0?225:250;
+                const h = this.cr<0?315:285;
+                const inx =  (z.xy.x>=cbx && z.xy.x<=cbx+w)||(z.xy.x+z.w>=cbx && z.xy.x+z.w<=cbx+w);
                 if(!inx) return false;
-                return (z.xy.y>=cby && z.xy.y<=cby+250)||(z.xy.y+z.h>=cby && z.xy.y+z.h<=cby+250);
+                return (z.xy.y>=cby && z.xy.y<=cby+h)||(z.xy.y+z.h>=cby && z.xy.y+z.h<=cby+h);
             }
             if(this.angs.ca!=0){
                 Game.zs.forEach(z=>{
