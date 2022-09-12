@@ -118,10 +118,10 @@ export class Zombie extends Drawable{
 
 
 
-    pl: Plat|null;
+    pl: Plat;
 
     onCollide?: ()=>void;
-    constructor(x: number, y: number) {
+    constructor(x: number, y: number, p: Plat) {
         super(x, y);
         this.die=0;
         this.w=194;
@@ -132,9 +132,9 @@ export class Zombie extends Drawable{
         this.wp=0;
         this.lt = 0;
         this.lf=0;
-        this.s=0;
+        this.s=Game.zsp;
         this.angs={al:0, ar: -0.2, tl:-1.1,sl:0.5,fl:0.5,tr:0,sr:0,fr:0,da:0};
-        this.pl=null;
+        this.pl=p;
         const tc=randc(225);
         const bc=randc(225);
         const fc=randc(32);
@@ -207,7 +207,7 @@ export class Zombie extends Drawable{
     }
 
     update(t: number){
-        if(this.lt===0) this.lt=t;
+        if(this.lt===0||t-this.lt>120) this.lt=t;
         const dt = (t-this.lt)/1000;
         if(this.die!=0){
             if(this.angs.da<1.2 && this.angs.da>-1.2){
@@ -219,7 +219,7 @@ export class Zombie extends Drawable{
         }
         else{
             if(t-this.lf>3000){
-                let s=Math.random()*400;
+                let s=Math.random()*400+this.s;
                 if(this.f){
                     Game.fs.push(new Fungus(this.xy.x+95, this.xy.y+42,s));
                 }
@@ -235,16 +235,19 @@ export class Zombie extends Drawable{
 
 
 
-            /*
-            if((this.s>0 && this.xy.x+this.w<Game.ww)||(this.s<0 && this.xy.x>0)){
+
+            if((this.s>0 && this.xy.x+this.w<this.pl.xy.x+this.pl.w)||(this.s<0 && this.xy.x>this.pl.xy.x)){
                 this.xy.x+= this.s*dt;
-                if(this.xy.x>Game.cw/2 && this.xy.x<Game.ww-(Game.cw/2)){
-                    Game.cx = this.xy.x-(Game.cw/2);
-                }
+
+
+            }
+            else{
+                this.f=!this.f;
+                this.s=-this.s;
 
             }
 
-             */
+
 
         }
 

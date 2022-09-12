@@ -26,7 +26,7 @@ export class Fungus extends Drawable{
 
     }
     update(t: number) {
-        if(this.lt==0) this.lt=t;
+        if(this.lt===0||t-this.lt>120) this.lt=t;
         const dt = (t-this.lt)/1000;
         this.g*=1.05;
         this.xy.y+=this.g*dt;

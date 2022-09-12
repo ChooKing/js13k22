@@ -212,10 +212,13 @@ export class Ninja extends Drawable{
         this.onCollide=c;
     }
     update(t: number){
+        if(this.lt===0||t-this.lt>120) this.lt=t;
         const st = this.pl!=null;
         const dt = (t-this.lt)/1000;
         const ff=(this.ij-this.g)*dt;//fall factor
         if(this.xy.y+this.yo>Game.wh+this.h){
+            Game.hp=0;
+            stat.update();
             console.log("died")
         }
         else{
@@ -349,69 +352,12 @@ export class Ninja extends Drawable{
                 })
             }
 
-            /*
-            if(this.jmp==0 && !this.pl){
-                this.ij=0;
-                this.g*=1.4;
-                this.yo-=(this.ij-this.g)*dt;
-                this.jmp=-2;
 
-            }
-
-
-
-            if(this.jmp==1){
-                this.g*=1.4;
-                this.yo-=(this.ij-this.g)*dt;
-
-                if(this.pl!=null && this.g>2){
-                    const p:Plat = this.pl;
-
-                    if(p.xy.y-this.xy.y>-40){
-                        this.xy.y=p.xy.y-this.h+39;
-                        this.yo=0;
-                        this.jmp=-1;
-                        this.g=1;
-                        this.s=0;
-                        setTimeout(()=>{
-                            this.jmp=0;
-                        },200);
-                    }
-
-                }
-            }
-            if(this.jmp==-2){
-                this.g*=1.4;
-                this.yo-=(this.ij-this.g)*dt;
-                if(this.pl!=null){
-                    this.xy.y=this.xy.y+this.yo;
-                    this.yo=0;
-                    this.g=1;
-                    this.s=0;
-                    this.jmp=0;
-
-                }
-            }
-
-             */
 
             this.lt = t;
         }
 
         }
 
-    /*
-    collide(ctx: CanvasRenderingContext2D,x:number, y:number){
-        let c=false
-        this.paths.forEach((p)=>{
-            p.paths.forEach((i)=>{
-                if(i!==this.sword.paths[0]){
-                    if(ctx.isPointInPath(i[0],x,y)) c=true;
-                }
-            });
-        });
-        return c;
-    }
 
-     */
 }
