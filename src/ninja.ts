@@ -252,9 +252,9 @@ export class Ninja extends Drawable{
 
             }
 
-            if(this.xy.y>Game.ch/2 && this.xy.y<Game.wh-(Game.ch/2)){
-                Game.cy = this.xy.y-(Game.ch/2)+this.h/2;
-            }
+
+            Game.cy = this.xy.y-(Game.ch/2)+this.h/2;
+
 
             if(this.s!=0 && this.jmp!=1){
                 if(this.wp===0) this.wp=1;
