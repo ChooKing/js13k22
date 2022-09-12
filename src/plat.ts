@@ -26,12 +26,8 @@ export class Plat extends Drawable{
         return this.xy.y-Game.cy;
     }
     draw() {
-        cp.x=Game.cx+Game.cw/2;
         const ctx=Game.ctx!;
         ctx.save()
-
-        //ctx.fillStyle=tex.floor!;
-
         ctx.filter="brightness(1.4)";
         ctx.beginPath();
         ctx.moveTo(this.vx,this.vy+60);
@@ -39,34 +35,16 @@ export class Plat extends Drawable{
         ctx.lineTo(this.vx+this.w-(((this.vx+this.w-cp.x)*60)/(this.vy+60-cp.y)),this.vy);
         ctx.lineTo(this.vx+this.w,this.vy+60);
         ctx.lineTo(this.vx,this.vy+60);
-        //ctx.fill();
         ctx.clip();
         ctx.drawImage(tex.fc!,this.xy.x-Game.cx,this.xy.y-Game.cy);
         ctx.restore();
-
-        /*
-        ctx.save();
-
-
-
-        ctx.fillStyle=tex.floor!;
-        ctx.filter="url(#dil) brightness(1.1)";
-        ctx.fillRect(this.vx,this.vy+60,this.w,17);
-
-
-        ctx.restore();
-
-
-         */
         ctx.drawImage(tex.fc!,this.vx,this.vy+60,this.w,17);
-
-
     }
     update(t: number) {
         console.log(t)
     }
 
     xin(d:Drawable){//x range of drawable in x range of platform?
-        return (d.xy.x>=this.xy.x && d.xy.x<=this.xy.x+this.w-(d.w*0.5))||(d.xy.x+d.w>=(this.xy.x+d.w*0.65) && d.xy.x+d.w<=this.xy.x+this.w);
+        return (d.xy.x>=this.xy.x && d.xy.x<=this.xy.x+this.w-(d.w*0.4))||(d.xy.x+d.w>=(this.xy.x+d.w*0.4) && d.xy.x+d.w<=this.xy.x+this.w);
     }
 }
