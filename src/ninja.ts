@@ -1,10 +1,11 @@
 import {Drawable} from "./drawable";
-import {Game} from "./game";
+import {Game,rf} from "./game";
 import {Paths} from "./Paths";
-import {Point, mp} from "./types";
+import {mp} from "./types";
 import {Plat} from "./plat";
 import {Zombie} from "./zombie";
 import {stat} from "./stat";
+//import {Fungus} from "./fungus";
 
 const c=[
     {r:1,g:1,b:0},
@@ -65,7 +66,7 @@ export class Ninja extends Drawable{
     footR: Paths;
     footL: Paths;
     //paths: Paths[];
-    cols: Point[];
+    //cols: Fungus[];
     wp:mp;//walk phase
     angs: angs;
     cr: number; //crouch factor
@@ -75,12 +76,12 @@ export class Ninja extends Drawable{
     pl: Plat|null;
     ij: number; //initial jump speed
     onCollide?: ()=>void;
-    constructor(x: number, y: number, col: Point[]) {
+    constructor(x: number, y: number) {
         super(x, y);
         this.w=189;
         this.h=449;
         this.xy={x:x, y:y};
-        this.cols=col;
+        //this.cols=col;
         this.f = false;
         this.wp=0;
         this.lt = 0;
@@ -139,9 +140,15 @@ export class Ninja extends Drawable{
 
     }
     checkCol(p:Paths){
-        this.cols.forEach((co)=>{
+        Game.fs.forEach((co)=>{
+            //console.log(co.xy.x,co.xy.y)
             p.paths.forEach((i)=>{
-                if((this.onCollide)&&(this.collide(Game.ctx!,i[0],co.x,co.y))) this.onCollide();
+                if((this.collide(Game.ctx!,i[0],co.xy.x-Game.cx,co.xy.y-Game.cy))){
+                    rf(co);
+                    Game.hp--;
+                    stat.update();
+                    console.log(Game.fs)
+                }
             })
         })
     }

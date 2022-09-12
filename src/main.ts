@@ -1,35 +1,41 @@
 import {Ninja} from "./ninja";
 import {Game} from "./game";
-import {Point} from "./types";
+//import {Point} from "./types";
 import {Keyboard} from "./keyboard";
 import {tex} from "./tex";
 import {bg} from "./bg";
 import {Zombie} from "./zombie";
 import {stat} from "./stat";
+//import {Fungus} from "./fungus";
 const canvas = document.getElementById("canvas")! as HTMLCanvasElement;
 canvas.width=1600;
 canvas.height=900;
 Game.init();
 Game.ctx = canvas.getContext("2d")!;
 const ctx=Game.ctx!;
-let m:Point={x:0,y:0};
-let mColor="rgb(255,255,255)";
-const viruses=[m];
-const ninja = new Ninja(0,0, viruses);//y425
+//let m:Point={x:0,y:0};
+//let mColor="rgb(255,255,255)";
+//const viruses=[m];
+const ninja = new Ninja(0,0);//y425
 //const zmb = new Zombie(0,0, []);
 
 tex.init();
+/*
 document.addEventListener('mousemove', (e) => {
     m.x=e.x-(window.innerWidth-Game.cw)/2;
     m.y=e.y;
 });
+
+ */
 document.addEventListener('click',(e)=>{
     console.log(e.x-(window.innerWidth-Game.cw)/2,e.y);
 });
 stat.init();
 ninja.setCollider(()=>{
-   mColor="rgb(255,0,0)";
+   console.log("hit")
 });
+
+
 const k=Keyboard.init();
 k.addDownHandler(" ",()=>{
     ninja.ct=true;
@@ -88,7 +94,6 @@ Game.ps.forEach(p=>{
     const z = new Zombie(p.xy.x+250, p.xy.y-314,[]);
     if(Math.random()>0.5) z.f=true;
     Game.zs.push(z);
-
 });
 const run=(time: number)=>{
     ctx.clearRect(0, 0, Game.cw, Game.ch);
@@ -107,12 +112,14 @@ const run=(time: number)=>{
         z.draw();
     });
 
-
+    /*
     ctx.fillStyle=mColor;
     ctx.beginPath();
     ctx.arc(m.x,m.y,5,0,6.28);
     ctx.fill();
     mColor="rgb(255,255,255)";
+
+     */
     window.requestAnimationFrame((t)=>{
         run(t);
     });

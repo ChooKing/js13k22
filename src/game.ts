@@ -4,6 +4,7 @@ import {Fungus} from "./fungus";
 
 export const Game = {
     score: 0,
+    hp:100,
     ctx: undefined as CanvasRenderingContext2D|undefined,
     cw: 1600, //canvas width
     ch: 900, //canvas height
@@ -32,8 +33,8 @@ export const Game = {
     fs: [] as Array<Fungus>
 }
 export const rz=(z:Zombie)=>{
-    Game.zs=Game.zs.filter(i=>i!=z)
+    Game.zs=Game.zs.filter(i=>i!=z);
 }
 export const rf=(f:Fungus)=>{
-    Game.fs=Game.fs.filter(i=>i!=f)
+    Game.fs=Game.fs.filter(i=>i!=f);
 }
