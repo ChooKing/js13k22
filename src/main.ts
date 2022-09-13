@@ -15,8 +15,10 @@ Game.ctx = canvas.getContext("2d")!;
 const ctx=Game.ctx!;
 //let m:Point={x:0,y:0};
 //let mColor="rgb(255,255,255)";
-//const viruses=[m];
-const ninja = new Ninja(0,Game.wh-800);//y425
+//const viruses=[m];/
+Game.nj = new Ninja(0,Game.wh-800);//y425
+const ninja = Game.nj;
+//Game.nj=ninja;
 //const zmb = new Zombie(0,0, []);
 
 tex.init();
@@ -91,15 +93,8 @@ k.addUpHandler("ArrowDown",()=>{
     }
 
 });
+Game.zGen();
 
-Game.ps.forEach(p=>{
-    const z = new Zombie(p.xy.x+Math.random()*(p.w-Game.pe*2)+Game.pe, p.xy.y-314,p);
-    if(Math.random()>0.5){
-        z.f=true;
-        z.s=-Game.zsp;
-    }
-    Game.zs.push(z);
-});
 const run=(time: number)=>{
     ctx.clearRect(0, 0, Game.cw, Game.ch);
     bg.draw();

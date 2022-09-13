@@ -10,6 +10,7 @@ export const stat={
         stat.hp=document.querySelector("#hp");
         stat.msg=document.querySelector("#msg");
         stat.but=document.querySelector("#but");
+        stat.but!.addEventListener("click",()=>Game.gsn());
     },
     update:()=>{
         stat.hp!.innerText="HEALTH: "+Game.hp.toString();
@@ -23,5 +24,8 @@ export const stat={
         if(v){
             if(stat.but?.classList.contains("hid")) stat.but!.classList.remove("hid");
         }
+    },
+    hideBut:()=>{
+        stat.but!.classList.add("hid");
     }
 }

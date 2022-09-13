@@ -238,6 +238,7 @@ export class Ninja extends Drawable{
             Game.hp=0;
             stat.update();
             console.log("died")
+            Game.end();
         }
         else{
             if(this.cr==0){
