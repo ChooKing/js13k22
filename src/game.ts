@@ -48,12 +48,14 @@ export const Game = {
     fs: [] as Array<Fungus>,
     zGen:()=>{//Zombie generator
         Game.ps.forEach(p=>{
-            const z = new Zombie(p.xy.x+Math.random()*(p.w-Game.pe*2)+Game.pe, p.xy.y-314,p);
-            if(Math.random()>0.5){
-                z.f=true;
-                z.s=-Game.zsp;
+            if(!((p.xy.x==0)&&(p.xy.y==(Game.tr-1)*Game.th))){
+                const z = new Zombie(p.xy.x+Math.random()*(p.w-Game.pe*2)+Game.pe, p.xy.y-314,p);
+                if(Math.random()>0.5){
+                    z.f=true;
+                    z.s=-Game.zsp;
+                }
+                Game.zs.push(z);
             }
-            Game.zs.push(z);
         });
     },
     reset:()=>{
