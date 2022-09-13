@@ -4,7 +4,6 @@ import {Game} from "./game";
 import {Keyboard} from "./keyboard";
 import {tex} from "./tex";
 import {bg} from "./bg";
-import {Zombie} from "./zombie";
 import {stat} from "./stat";
 //import {Fungus} from "./fungus";
 const canvas = document.getElementById("canvas")! as HTMLCanvasElement;
@@ -13,14 +12,8 @@ canvas.height=900;
 Game.init();
 Game.ctx = canvas.getContext("2d")!;
 const ctx=Game.ctx!;
-//let m:Point={x:0,y:0};
-//let mColor="rgb(255,255,255)";
-//const viruses=[m];/
 Game.nj = new Ninja(0,Game.wh-800);//y425
 const ninja = Game.nj;
-//Game.nj=ninja;
-//const zmb = new Zombie(0,0, []);
-
 tex.init();
 /*
 document.addEventListener('mousemove', (e) => {
@@ -79,11 +72,9 @@ k.addUpHandler(" ",()=>{
     ninja.ct=false;
 });
 k.addUpHandler("ArrowRight",()=>{
-    //if(ninja.jmp==0) ninja.s=0;
     ninja.s=0;
 });
 k.addUpHandler("ArrowLeft",()=>{
-    //if(ninja.jmp==0) ninja.s=0;
     ninja.s=0;
 });
 k.addUpHandler("ArrowDown",()=>{
@@ -91,7 +82,6 @@ k.addUpHandler("ArrowDown",()=>{
         ninja.jmp=0;
         ninja.s=0;
     }
-
 });
 Game.zGen();
 
@@ -112,14 +102,6 @@ const run=(time: number)=>{
         z.draw();
     });
 
-    /*
-    ctx.fillStyle=mColor;
-    ctx.beginPath();
-    ctx.arc(m.x,m.y,5,0,6.28);
-    ctx.fill();
-    mColor="rgb(255,255,255)";
-
-     */
     window.requestAnimationFrame((t)=>{
         run(t);
     });
