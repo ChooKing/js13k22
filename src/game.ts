@@ -1,6 +1,7 @@
 import {Plat} from "./plat";
 import {Zombie} from "./zombie";
 import {Fungus} from "./fungus";
+import {stat} from "./stat";
 
 export const Game = {
     score: 0,
@@ -29,7 +30,7 @@ export const Game = {
                         Game.ps.push(new Plat(c,r,1))
                     }
                 }
-                else{
+                else if ((r-1)%3==0){
                     if((c-1)%3==0){
                         Game.ps.push(new Plat(c,r,2))
                     }
@@ -41,7 +42,11 @@ export const Game = {
     },
     ps: [] as Array<Plat>,
     zs: [] as Array<Zombie>,
-    fs: [] as Array<Fungus>
+    fs: [] as Array<Fungus>,
+    end:()=>{
+        stat.setMsg(`<h2>DEATH COMES TOO SOON</h2>`);
+        stat.setBut("Play Again",true);
+    }
 }
 export const rz=(z:Zombie)=>{
     Game.zs=Game.zs.filter(i=>i!=z);

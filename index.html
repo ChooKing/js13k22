@@ -17,6 +17,10 @@
       display: block;
       margin: auto;
     }
+    div{
+      border: 1px solid red;
+
+    }
     .stat{
       z-index: 2;
       position: absolute;
@@ -26,10 +30,30 @@
       color: white;
       font-size: 2em;
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column;
     }
     .stat div{
       margin: 0.25em 1em;
+    }
+    #nums{
+      display: flex;
+      justify-content: flex-end;
+    }
+    #bc{
+      display: flex;
+      justify-content: center;
+    }
+    #but{
+      font-size: 1em;
+    }
+    .hid{
+      visibility: hidden;
+    }
+    #msg{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2em 1em;
     }
     body{
       background-color: black;
@@ -48,7 +72,13 @@
     <script type="module" src="/src/main.ts"></script>
   </body>
   <div class="stat">
-    <div id="hp">HEALTH: 100</div>
-    <div id="st">SCORE: 0</div>
+    <div id="nums">
+      <div id="hp">HEALTH: 100</div>
+      <div id="st">SCORE: 0</div>
+    </div>
+    <div id="msg"></div>
+    <div id="bc">
+      <button id="but" class="hid">OK</button>
+    </div>
   </div>
 </html>
