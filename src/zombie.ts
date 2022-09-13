@@ -219,80 +219,84 @@ export class Zombie extends Drawable{
     update(t: number){
         if(this.lt===0||t-this.lt>120) this.lt=t;
         const dt = (t-this.lt)/1000;
-        if(this.die!=0){
-            if(this.angs.da<1.2 && this.angs.da>-1.2){
-                this.angs.da+=3*dt*this.die*(this.f?-1:1);
-            }
-            else {
-                rz(this);
-            }
-        }
-        else{
-            if(t-this.lf>3000){
-                let s=Math.random()*400+this.s;
-                if(this.f){
-                    Game.fs.push(new Fungus(this.xy.x+95, this.xy.y+42,s));
+        if(Game.gs==2){
+            if(this.die!=0){
+                if(this.angs.da<1.2 && this.angs.da>-1.2){
+                    this.angs.da+=3*dt*this.die*(this.f?-1:1);
                 }
-                else{
-                    Game.fs.push(new Fungus(this.xy.x+99, this.xy.y+42,-s));
+                else {
+                    rz(this);
                 }
-
-                this.lf=t;
-            }
-            if((this.s>0 && this.xy.x+this.w<this.pl.xy.x+this.pl.w)||(this.s<0 && this.xy.x>this.pl.xy.x)){
-                this.xy.x+= this.s*dt*Math.random();
             }
             else{
-                this.f=!this.f;
-                this.s=-this.s;
-            }
-            const rv=Game.ns/325; //rotations per second for everything other than cutting
-            if(this.wp===1){
-                if(this.angs.tl<mr.tl){
-                    this.angs.al+=rv*dt*mr.al;
-                    this.angs.ar-=rv*dt*mr.ar;
-                    this.angs.tl+=rv*dt*mr.tl;
-                    this.angs.tr-=rv*dt*mr.tr;
-                    this.angs.sl-=rv*dt*mr.sl;
-                    this.angs.sr-=rv*dt*mr.sr;
-                    this.angs.fl+=rv*dt*mr.foot;
-                    this.angs.fr+=rv*dt*mr.foot;
-                    /*
-                    this.angs.tr+=rv*dt*mr.tr;
-                    this.angs.sl+=rv*dt*mr.sl;
-                    this.angs.fl+=rv*dt*mr.fl;
-                    this.angs.sr+=rv*dt*mr.sr;
-                    this.angs.fr+=rv*dt*mr.fr;
+                if(t-this.lf>3000){
+                    let s=Math.random()*400+this.s;
+                    if(this.f){
+                        Game.fs.push(new Fungus(this.xy.x+95, this.xy.y+42,s));
+                    }
+                    else{
+                        Game.fs.push(new Fungus(this.xy.x+99, this.xy.y+42,-s));
+                    }
 
-                     */
-
+                    this.lf=t;
                 }
-                else this.wp=2;
-            }
-            if(this.wp===2){
-                if(this.angs.tl>-mr.tl){
-                    this.angs.al-=rv*dt*mr.al;
-                    this.angs.ar+=rv*dt*mr.ar;
-                    this.angs.tl-=rv*dt*mr.tl;
-                    this.angs.tr+=rv*dt*mr.tr;
-                    this.angs.sl+=rv*dt*mr.sl;
-                    this.angs.sr+=rv*dt*mr.sr;
-                    this.angs.fl-=rv*dt*mr.foot;
-                    this.angs.fr-=rv*dt*mr.foot;
-                    /*
-                    this.angs.tr-=rv*dt*mr.tr;
-                    this.angs.sl-=rv*dt*mr.sl;
-                    this.angs.fl-=rv*dt*mr.fl;
-                    this.angs.sr-=rv*dt*mr.sr;
-                    this.angs.fr-=rv*dt*mr.fr;
-
-                     */
+                if((this.s>0 && this.xy.x+this.w<this.pl.xy.x+this.pl.w)||(this.s<0 && this.xy.x>this.pl.xy.x)){
+                    this.xy.x+= this.s*dt*Math.random();
                 }
-                else this.wp=1;
-            }
+                else{
+                    this.f=!this.f;
+                    this.s=-this.s;
+                }
+                const rv=Game.ns/325; //rotations per second for everything other than cutting
+                if(this.wp===1){
+                    if(this.angs.tl<mr.tl){
+                        this.angs.al+=rv*dt*mr.al;
+                        this.angs.ar-=rv*dt*mr.ar;
+                        this.angs.tl+=rv*dt*mr.tl;
+                        this.angs.tr-=rv*dt*mr.tr;
+                        this.angs.sl-=rv*dt*mr.sl;
+                        this.angs.sr-=rv*dt*mr.sr;
+                        this.angs.fl+=rv*dt*mr.foot;
+                        this.angs.fr+=rv*dt*mr.foot;
+                        /*
+                        this.angs.tr+=rv*dt*mr.tr;
+                        this.angs.sl+=rv*dt*mr.sl;
+                        this.angs.fl+=rv*dt*mr.fl;
+                        this.angs.sr+=rv*dt*mr.sr;
+                        this.angs.fr+=rv*dt*mr.fr;
 
+                         */
+
+                    }
+                    else this.wp=2;
+                }
+                if(this.wp===2){
+                    if(this.angs.tl>-mr.tl){
+                        this.angs.al-=rv*dt*mr.al;
+                        this.angs.ar+=rv*dt*mr.ar;
+                        this.angs.tl-=rv*dt*mr.tl;
+                        this.angs.tr+=rv*dt*mr.tr;
+                        this.angs.sl+=rv*dt*mr.sl;
+                        this.angs.sr+=rv*dt*mr.sr;
+                        this.angs.fl-=rv*dt*mr.foot;
+                        this.angs.fr-=rv*dt*mr.foot;
+                        /*
+                        this.angs.tr-=rv*dt*mr.tr;
+                        this.angs.sl-=rv*dt*mr.sl;
+                        this.angs.fl-=rv*dt*mr.fl;
+                        this.angs.sr-=rv*dt*mr.sr;
+                        this.angs.fr-=rv*dt*mr.fr;
+
+                         */
+                    }
+                    else this.wp=1;
+                }
+
+
+            }
 
         }
+
 
 
 

@@ -5,7 +5,7 @@ import {stat} from "./stat";
 import {Ninja} from "./ninja";
 
 export const Game = {
-    gs: 2, //Game State 0=opening, 1=story, 2=play, 3=dead
+    gs: 1, //Game State 0=opening, 1=story, 2=play, 3=dead
     score: 0,
     hp:100,
     ctx: undefined as CanvasRenderingContext2D|undefined,

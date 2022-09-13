@@ -153,6 +153,7 @@ export class Ninja extends Drawable{
             rf(fk);
             Game.hp--;
             stat.update();
+            if(Game.hp<1) Game.end();
         }
     }
     dp(p:Paths){//draw part
@@ -237,7 +238,6 @@ export class Ninja extends Drawable{
         if(this.xy.y+this.yo>Game.wh+this.h){
             Game.hp=0;
             stat.update();
-            console.log("died")
             Game.end();
         }
         else{

@@ -48,9 +48,13 @@
     }
     #msg{
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       margin: 2em 1em;
+    }
+    #msg p{
+      margin: 1em 0.5em;
     }
     body{
       background-color: black;
@@ -70,12 +74,12 @@
   </body>
   <div class="stat">
     <div id="nums">
-      <div id="hp">HEALTH: 100</div>
-      <div id="st">SCORE: 0</div>
+      <div id="hp"></div>
+      <div id="st"></div>
     </div>
     <div id="msg"></div>
     <div id="bc">
-      <button id="but" class="hid">OK</button>
+      <button id="but" class="hid"></button>
     </div>
   </div>
 </html>

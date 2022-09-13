@@ -84,8 +84,17 @@ k.addUpHandler("ArrowDown",()=>{
     }
 });
 Game.zGen();
+stat.setMsg(`<h1>ZOMBIE FUNGUS</h1><p>A brain eating fungus is turning people into zombies. You are a ninja whose mission is to stop the spread of the fungus by killing the zombies.</p><p>It is virutally impossilbe to carry out this mission
+without also becoming infected. To avoid spreading the fungus yourself, you have taken herbs that will prevent you from becoming a zombie by turning into poison if it comes in contact with the fungus. To avoid injury, you must evade the
+orange spores of the fungus. </p><p>Move using the arrow keys on the keyboard and attack using the space bar</p>`);
+stat.setBut("Start Game",true);
 
+let ss=true; //show stat
 const run=(time: number)=>{
+    if(Game.gs==2 && ss){
+        stat.update();
+        ss=false;
+    }
     ctx.clearRect(0, 0, Game.cw, Game.ch);
     bg.draw();
     Game.ps.forEach(p=>{
